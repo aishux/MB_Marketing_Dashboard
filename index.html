@@ -142,7 +142,6 @@
   .country-bg{fill:#E7EAF0;stroke:#fff;stroke-width:0.5;}
   .country-active{stroke:#fff;stroke-width:0.6;cursor:pointer;transition:opacity .15s;}
   .country-active:hover{opacity:0.75;}
-  .flight-line{fill:none;stroke-linecap:round;pointer-events:none;}
   .hub-marker{fill:var(--navy);stroke:#fff;stroke-width:1.5;}
   .country-marker{stroke:#fff;stroke-width:1;cursor:pointer;}
   .detail-panel{background:#F8FAFC;border:1px solid var(--line);border-radius:6px;padding:16px;font-size:12.5px;}
@@ -215,7 +214,7 @@
       <div class="table-wrap" id="combinedTransposed"></div>
     </section>
     <section class="section">
-      <div class="section-head"><h2>By country</h2><div class="sub">UAE headquarters, with routes sized by combined spend and colored by performance. Click a country for a quick summary, or open the By Country tab for full detail.</div></div>
+      <div class="section-head"><h2>By country</h2><div class="sub">Countries colored by performance. Click a country for a quick summary, or open the By Country tab for full detail.</div></div>
       <div class="legend-row">
         <span><span class="dot" style="background:#0F2440"></span>Headquarters, UAE</span>
         <span><span class="dot" style="background:#1E8A56"></span>Strong ROI and conversion</span>
@@ -239,7 +238,7 @@
       <div class="chart-row three">
         <div class="chart-card"><h3>Top countries by spend</h3><div class="cap">Actual PPC spend, month to date</div><div class="chart-box"><canvas id="chartBarSharePPC"></canvas></div></div>
         <div class="chart-card"><h3>Expected vs actual spend</h3><div class="cap">Top 8 PPC countries by spend</div><div class="chart-box"><canvas id="chartBarPPC"></canvas></div></div>
-        <div class="chart-card"><h3>ROI by country</h3><div class="cap">Green is profitable, red is zero return so far</div><div class="chart-box"><canvas id="chartRoiPPC"></canvas></div></div>
+        <div class="chart-card"><h3>ROI by country</h3><div class="cap">Countries with zero return so far are left off this chart, shown in the table below instead</div><div class="chart-box"><canvas id="chartRoiPPC"></canvas></div></div>
       </div>
     </section>
     <section class="section">
@@ -259,7 +258,7 @@
       <div class="chart-row three">
         <div class="chart-card"><h3>Top countries by spend</h3><div class="cap">Actual Paid Social spend, month to date</div><div class="chart-box"><canvas id="chartBarShareSocial"></canvas></div></div>
         <div class="chart-card"><h3>Expected vs actual spend</h3><div class="cap">Top 8 Paid Social countries by spend</div><div class="chart-box"><canvas id="chartBarSocial"></canvas></div></div>
-        <div class="chart-card"><h3>ROI by country</h3><div class="cap">Green is profitable, red is zero return so far</div><div class="chart-box"><canvas id="chartRoiSocial"></canvas></div></div>
+        <div class="chart-card"><h3>ROI by country</h3><div class="cap">Countries with zero return so far are left off this chart, shown in the table below instead</div><div class="chart-box"><canvas id="chartRoiSocial"></canvas></div></div>
       </div>
     </section>
     <section class="section">
@@ -272,7 +271,7 @@
   <!-- ============ BY COUNTRY ============ -->
   <div class="tab-panel" id="tab-map">
     <section class="section">
-      <div class="section-head"><h2>By country</h2><div class="sub">UAE headquarters, with routes sized by combined spend and colored by performance. Click any country for its full Expected vs Actual breakdown.</div></div>
+      <div class="section-head"><h2>By country</h2><div class="sub">Countries colored by performance. Click any country for its full Expected vs Actual breakdown.</div></div>
       <div class="legend-row">
         <span><span class="dot" style="background:#0F2440"></span>Headquarters, UAE</span>
         <span><span class="dot" style="background:#1E8A56"></span>Strong ROI and conversion</span>
@@ -487,10 +486,10 @@ function makeExpActBar(canvasId, data, n){
   });
 }
 function makeRoiBar(canvasId, data){
-  const rows = data.filter(r=>r.spend_act > 500).sort((a,b)=>b.roi - a.roi);
+  const rows = data.filter(r=>r.spend_act > 500 && r.roi > 0).sort((a,b)=>b.roi - a.roi);
   new Chart(document.getElementById(canvasId), {
     type: "bar",
-    data: { labels: rows.map(r=>`${r.country}  (${r.roi.toFixed(1)}%)`), datasets: [{ data: rows.map(r=>r.roi), backgroundColor: rows.map(r=>r.funded>0 ? COLORS.green : COLORS.red), barPercentage:0.7 }] },
+    data: { labels: rows.map(r=>`${r.country}  (${r.roi.toFixed(1)}%)`), datasets: [{ data: rows.map(r=>r.roi), backgroundColor: COLORS.green, barPercentage:0.7 }] },
     options: { responsive:true, maintainAspectRatio:false, indexAxis:"y", plugins:{legend:{display:false}},
       scales:{ x:{grid:{color:COLORS.grid}, beginAtZero:true, ticks:{font:{size:10}, callback:v=>v+"%"}}, y:{grid:{display:false}, ticks:{font:{size:10.5}}} } }
   });
@@ -636,14 +635,6 @@ function buildMap(svgId, options){
   const statusColor = {good: COLORS.green, watch: COLORS.amber, bad: COLORS.red};
   const hubCode = MAP_DATA.hub;
   const hubC = MAP_DATA.centroids[hubCode];
-  Object.entries(MAP_DATA.country_to_code).forEach(([country, code])=>{
-    if(code === hubCode) return;
-    const c = combined[country]; if(!c) return;
-    const pt = MAP_DATA.centroids[code]; if(!pt) return;
-    const mx = (hubC.cx+pt.cx)/2, my = (hubC.cy+pt.cy)/2 - Math.abs(hubC.cx-pt.cx)*0.12;
-    const w = Math.max(0.6, Math.min(3.2, Math.sqrt(c.spend/500)));
-    inner += `<path class="flight-line" d="M${hubC.cx},${hubC.cy} Q${mx},${my} ${pt.cx},${pt.cy}" stroke="${statusColor[c.status]}" stroke-width="${w}" opacity="0.45"></path>`;
-  });
   Object.entries(MAP_DATA.country_to_code).forEach(([country, code])=>{
     const c = combined[country]; if(!c) return;
     const pathD = MAP_DATA.paths[code] ? MAP_DATA.paths[code].d : null;
