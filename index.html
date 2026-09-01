@@ -340,7 +340,7 @@ tfoot td:first-child{text-align:left;}
         </div>
         <div class="card chart-card">
           <h3>From lead to funded account</h3>
-          <div class="sub">How many people made it through each step in August.</div>
+          <div class="sub">The area shows the drop at each step in August, with the exact count printed at every point.</div>
           <div class="chart-box short"><canvas id="chFunnel"></canvas></div>
         </div>
         <div class="card chart-card">
@@ -425,7 +425,7 @@ tfoot td:first-child{text-align:left;}
           <tbody id="recBody"></tbody>
         </table>
       </div>
-      <p class="footer-note">The rules behind the table: <b>Increase</b> means ROI was 15% or better with at least one funded account, so we suggest adding about 25% to its budget. <b>Decrease</b> means at least $2,000 was spent with zero funded accounts, so we suggest cutting about 35%. <b>Hold</b> is everything in between, plus countries where spend was too small to judge. Before cutting the zero funded countries, see priority 2 on the Strategic Priorities tab.</p>
+      <p class="footer-note">The rules behind the table: <b>Increase</b> means ROI was 15% or better with at least one funded account, so we suggest adding about 25% to its budget. <b>Decrease</b> means at least $2,000 was spent with zero funded accounts, so we suggest cutting about 35%. <b>Hold</b> is everything in between, plus countries where spend was too small to judge. Before cutting the zero funded countries, see priority 3 on the Strategic Priorities tab.</p>
     </div>
   </div>
 
@@ -447,15 +447,6 @@ tfoot td:first-child{text-align:left;}
 
       <div class="card strat">
         <div class="strat-top"><div class="strat-n">2</div>
-          <div><div class="kicker">Paid for, then forgotten</div><h3>Thousands of August leads are sitting warm with no follow up campaign</h3></div>
-        </div>
-        <p class="lede" id="warmLede"></p>
-        <div class="warm-grid" id="warmGrid"></div>
-        <div class="fix" id="warmFix"></div>
-      </div>
-
-      <div class="card strat">
-        <div class="strat-top"><div class="strat-n">3</div>
           <div><div class="kicker">Budget allocation</div><h3>The biggest budgets are not the best performers</h3></div>
         </div>
         <p class="lede" id="allocLede"></p>
@@ -471,6 +462,15 @@ tfoot td:first-child{text-align:left;}
         </div>
         <div class="fix"><b>The fix:</b> the country by country moves are already worked out on the Recommendations tab. Net effect: money shifts from large zero result budgets into the small high return ones.</div>
       </div>
+      <div class="card strat">
+        <div class="strat-top"><div class="strat-n">3</div>
+          <div><div class="kicker">Paid for, then forgotten</div><h3>Thousands of August leads are sitting warm with no follow up campaign</h3></div>
+        </div>
+        <p class="lede" id="warmLede"></p>
+        <div class="warm-grid" id="warmGrid"></div>
+        <div class="fix" id="warmFix"></div>
+      </div>
+
     </div>
   </div>
 
@@ -654,18 +654,51 @@ function renderCharts() {
   chLeads = hbar($("#chLeads"), labels, rows.map(r => Math.round(r.leads_exp)), rows.map(r => r.leads_act), false);
 
   const t = scopeTotals();
+  const valueLabels = {
+    id: "valueLabels",
+    afterDatasetsDraw(chart) {
+      const meta = chart.getDatasetMeta(0);
+      const g = chart.ctx;
+      g.save();
+      g.font = "800 13px Archivo, system-ui, sans-serif";
+      g.textAlign = "center";
+      g.textBaseline = "bottom";
+      meta.data.forEach((pt, i) => {
+        const v = chart.data.datasets[0].data[i];
+        const label = fmtN(v);
+        g.lineWidth = 4;
+        g.strokeStyle = "rgba(255,255,255,.92)";
+        g.strokeText(label, pt.x, pt.y - 8);
+        g.fillStyle = "#0E1B3D";
+        g.fillText(label, pt.x, pt.y - 8);
+      });
+      g.restore();
+    }
+  };
+  const funnelCtx = $("#chFunnel").getContext ? $("#chFunnel").getContext("2d") : null;
+  let areaFill = "rgba(62,107,245,.22)";
+  if (funnelCtx && funnelCtx.createLinearGradient) {
+    const grad = funnelCtx.createLinearGradient(0, 0, 0, 240);
+    grad.addColorStop(0, "rgba(62,107,245,.38)");
+    grad.addColorStop(1, "rgba(85,195,233,.06)");
+    areaFill = grad;
+  }
   chFunnel = new Chart($("#chFunnel"), {
-    type: "bar",
+    type: "line",
     data: {labels: ["Leads", "Live accounts", "Funded accounts"],
       datasets: [{data: [t.leads_act, t.live, t.funded],
-        backgroundColor: ["#3E6BF5", "#55C3E9", "#0B915F"], borderRadius: 8, barPercentage: .6}]},
+        fill: true, backgroundColor: areaFill, borderColor: "#3E6BF5", borderWidth: 2.5,
+        tension: .35, pointRadius: 5, pointHoverRadius: 7,
+        pointBackgroundColor: ["#3E6BF5", "#55C3E9", "#0B915F"], pointBorderColor: "#fff", pointBorderWidth: 2}]},
     options: {maintainAspectRatio: false, animation: reduced ? false : {duration: 600},
+      layout: {padding: {top: 22, right: 14, left: 6}},
       plugins: {legend: {display: false},
         tooltip: {callbacks: {label: c => fmtN(c.parsed.y) + (c.dataIndex === 1 && t.leads_act
           ? ` (${(100 * t.live / t.leads_act).toFixed(1)}% of leads)`
           : c.dataIndex === 2 ? ` (${t.a2f.toFixed(1)}% of live accounts)` : "")}}},
       scales: {x: {grid: {display: false}, ticks: {font: {weight: 600}}},
-               y: {grid: {color: "#EDF1F8"}, ticks: {callback: fmtN}}}}
+               y: {grid: {color: "#EDF1F8"}, ticks: {callback: fmtN}, beginAtZero: true}}},
+    plugins: [valueLabels]
   });
 
   const splitP = OV.country === "all" ? TOT.ppc.spend_act : DATA.ppc.find(r => r.country === OV.country).spend_act;
@@ -976,9 +1009,9 @@ function recChips() {
   ].map(([v, l, n]) => `<button class="fchip${recState.chan === v ? " active" : ""}" data-chan="${v}">${l} <span class="cnt">${n}</span></button>`).join("");
   $("#recActChips").innerHTML = [
     ["all", "All actions", "", cnt(() => true)],
-    ["Increase", "Increase", "act-inc", cnt(r => r.action === "Increase")],
+    ["Increase", "\u25B2 Increase", "act-inc", cnt(r => r.action === "Increase")],
     ["Hold", "Hold", "act-hold", cnt(r => r.action === "Hold")],
-    ["Decrease", "Decrease", "act-dec", cnt(r => r.action === "Decrease")],
+    ["Decrease", "\u25BC Decrease", "act-dec", cnt(r => r.action === "Decrease")],
   ].map(([v, l, c, n]) => `<button class="fchip ${c}${recState.act === v ? " active" : ""}" data-act="${v}">${l} <span class="cnt">${n}</span></button>`).join("");
 }
 function renderRecs() {
