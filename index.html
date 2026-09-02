@@ -84,14 +84,26 @@ a{color:var(--brand);}
 .seg button:focus-visible{outline:2px solid var(--brand);}
 
 /* ---------- KPI cards ---------- */
-.kpis{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
-.kpi{padding:16px 18px;}
-.kpi .name{font-size:12.5px; font-weight:600; color:#5A6880; margin-bottom:6px;}
-.kpi .big{font-size:26px; font-weight:800; letter-spacing:-.02em; line-height:1.15;}
+.kpis{grid-template-columns:repeat(4,1fr);}
+.plan-band{grid-template-columns:repeat(5,1fr);}
+#ppcKpis, #socKpis{grid-template-columns:repeat(5,1fr);}
+@media (max-width:1100px){ .kpis, #ppcKpis, #socKpis{grid-template-columns:repeat(2,1fr);} .plan-band{grid-template-columns:repeat(2,1fr);} }
+.kpi{padding:16px 18px 15px; position:relative; display:flex; flex-direction:column; justify-content:center; min-height:92px;}
+.kpi .src{position:absolute; top:10px; right:10px; line-height:0; opacity:.9;}
+.kpi .src svg{width:13px; height:13px; margin:0;}
+.kpi .name{font-size:11px; font-weight:700; letter-spacing:.07em; color:#8A96AC; margin-bottom:6px; text-transform:uppercase; padding-right:20px;}
+.kpi .big{font-size:28px; font-weight:800; letter-spacing:-.02em; line-height:1.1; color:var(--ink); font-variant-numeric:tabular-nums;}
 .kpi .vs{font-size:12.5px; color:#5A6880; margin-top:3px;}
 .kpi .meter{height:6px; border-radius:999px; background:#EDF1F8; margin-top:10px; overflow:hidden;}
 .kpi .meter i{display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,var(--brand),var(--brand2)); width:0; transition:width .9s ease;}
 .kpi .chip{margin-top:8px;}
+.src-ic{width:15px; height:15px; vertical-align:-2px; margin:0 5px; flex:none;}
+.kpi .big .src-ic{width:16px; height:16px; margin-left:7px;}
+.kpi .vs .src-ic{margin-left:0; margin-right:5px;}
+
+.plan-kpi{background:#F7FAF8; box-shadow:inset 0 0 0 1px #E2EDE6;}
+.plan-kpi .big{font-size:26px;}
+.kgroup-head{font-size:11.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:#8A96AC; margin:2px 2px 10px;}
 .chip{display:inline-flex; align-items:center; gap:4px; padding:2px 9px; border-radius:999px; font-size:11.5px; font-weight:700;}
 .chip.up{background:var(--green-soft); color:var(--green);}
 .chip.down{background:var(--red-soft); color:var(--red);}
@@ -117,6 +129,13 @@ a{color:var(--brand);}
 .toolbar input[type=search]{font:inherit; padding:8px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; min-width:210px;}
 .toolbar input[type=search]:focus{outline:2px solid var(--brand); border-color:transparent;}
 .toolbar select{font:inherit; font-weight:600; padding:8px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; cursor:pointer;}
+table.tpose th.ccol, table.tpose th.allcol{white-space:nowrap; text-align:right; min-width:96px;}
+table.tpose th.ccol img{margin-right:5px;}
+table.tpose td.mlab{font-weight:700; white-space:nowrap; min-width:190px; cursor:pointer; user-select:none;}
+table.tpose td.mlab:hover{color:var(--brand);}
+table.tpose .allcol{background:#F4F7FC; font-weight:700;}
+table.tpose tr.grp td{background:#EDF2FA; font-size:11px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:#33415E; padding:7px 12px;}
+table.tpose tr.grp td.grp-td svg{width:13px; height:13px; vertical-align:-2px; margin-right:7px;}
 .chipbar{display:flex; gap:6px; flex-wrap:wrap;}
 .fchip{appearance:none; font:inherit; font-size:12.5px; font-weight:600; padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:#fff; color:#5A6880; cursor:pointer; display:inline-flex; gap:6px; align-items:center;}
 .fchip .cnt{background:#EDF1F8; border-radius:999px; padding:0 7px; font-size:11px;}
@@ -295,35 +314,9 @@ tfoot td:first-child{text-align:left;}
 
   <!-- ================= OVERVIEW ================= -->
   <div class="tab-panel active" id="tab-overview">
-    <div class="hero">
-      <h2>August in one line</h2>
-      <div class="hero-figures">
-        <div class="hero-fig">
-          <div class="lbl">The plan asked for</div>
-          <div class="val num" id="heroPlan"></div>
-          <div class="note">across PPC and Paid Social</div>
-        </div>
-        <div class="hero-fig">
-          <div class="lbl">We actually spent</div>
-          <div class="val num" id="heroAct"></div>
-          <div class="note" id="heroPct"></div>
-        </div>
-        <div class="hero-fig">
-          <div class="lbl">That spend brought in</div>
-          <div class="val num" id="heroFunded"></div>
-          <div class="note" id="heroNmi"></div>
-        </div>
-      </div>
-      <div class="hero-bar">
-        <div class="track"><div class="fill" id="heroFill"></div></div>
-        <div class="cap"><span>Spent so far</span><span id="heroCap"></span></div>
-      </div>
-    </div>
-
     <div class="section">
       <div class="section-head">
-        <h2>Plan vs actual</h2>
-        <div class="sub">Pick a channel and a country to update every card and chart below</div>
+        <h2>August 2026 at a glance</h2>
         <div style="margin-left:auto;">
           <div class="seg" id="chanSeg">
             <button data-ch="all" class="active">All channels</button>
@@ -332,6 +325,9 @@ tfoot td:first-child{text-align:left;}
           </div>
         </div>
       </div>
+      <div class="kgroup-head">The monthly plan</div>
+      <div class="grid kpis plan-band" id="planBand"></div>
+      <div class="kgroup-head" style="margin-top:26px;">August actuals</div>
       <div class="country-grid ov" id="ovCountryGrid"></div>
       <div class="grid kpis" id="kpiGrid"></div>
     </div>
@@ -360,12 +356,20 @@ tfoot td:first-child{text-align:left;}
         </div>
       </div>
     </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Country table, both channels combined</h2><div class="sub">Same table as the PPC and Paid Social tabs, with both channels added together. Click a KPI name to sort the countries by it.</div></div>
+      <div class="toolbar">
+        <input type="search" id="ovtSearch" placeholder="Find a country..." aria-label="Find a country">
+      </div>
+      <div class="table-wrap" id="ovTableWrap"></div>
+    </div>
   </div>
 
   <!-- ================= PPC ================= -->
   <div class="tab-panel" id="tab-ppc">
     <div class="section">
-      <div class="section-head"><h2>PPC / Google Search</h2><div class="sub">Every country, plan vs actual. Click any column heading to sort. Type to filter.</div></div>
+      <div class="section-head"><h2>PPC / Google Search</h2></div>
       <div class="grid kpis" id="ppcKpis" style="margin-bottom:16px;"></div>
       <div class="toolbar">
         <input type="search" id="ppcSearch" placeholder="Find a country..." aria-label="Find a country">
@@ -377,7 +381,7 @@ tfoot td:first-child{text-align:left;}
   <!-- ================= SOCIAL ================= -->
   <div class="tab-panel" id="tab-social">
     <div class="section">
-      <div class="section-head"><h2>Paid Social</h2><div class="sub">All August social spend ran on Facebook and Instagram. TikTok, LinkedIn, Snapchat, YouTube and programmatic had zero spend. Click any column heading to sort.</div></div>
+      <div class="section-head"><h2>Paid Social</h2></div>
       <div class="grid kpis" id="socKpis" style="margin-bottom:16px;"></div>
       <div class="toolbar">
         <input type="search" id="socSearch" placeholder="Find a country..." aria-label="Find a country">
@@ -555,22 +559,13 @@ $$(".tab-btn").forEach(btn => btn.addEventListener("click", () => {
   window.scrollTo({top: 0, behavior: reduced ? "auto" : "smooth"});
 }));
 
-/* ---------- hero ---------- */
-(function hero() {
-  const t = TOT.all;
-  countUp($("#heroPlan"), t.spend_exp, fmt$);
-  countUp($("#heroAct"), t.spend_act, fmt$);
-  countUp($("#heroFunded"), t.funded, v => fmtN(v) + " funded accounts");
-  const pct = 100 * t.spend_act / t.spend_exp;
-  $("#heroPct").textContent = pct.toFixed(1) + "% of the monthly plan";
-  $("#heroNmi").textContent = fmt$(t.nmi) + " net money in, " + fmtP(t.roi) + " ROI on spend";
-  $("#heroCap").textContent = fmt$(t.spend_act) + " of " + fmt$(t.spend_exp);
-  animateBar($("#heroFill"), pct);
-})();
-
 /* ---------- overview KPI cards ---------- */
-function kpiCard({name, big, vs, chip, meterPct}) {
+const IC_XLS = `<svg class="src-ic" viewBox="0 0 16 16" role="img" aria-label="From the Excel budget plan"><title>From the Excel budget plan</title><rect width="16" height="16" rx="3.2" fill="#107C41"/><path d="M4.6 4h2.1l1.35 2.5L9.4 4h2.1L9.2 8l2.4 4H9.45L8 9.35 6.55 12H4.4l2.4-4z" fill="#fff"/></svg>`;
+const IC_PBI = `<svg class="src-ic" viewBox="0 0 16 16" role="img" aria-label="From Power BI"><title>From Power BI</title><rect width="16" height="16" rx="3.2" fill="#F2C811"/><rect x="3.2" y="8.2" width="2.4" height="4.6" rx="1" fill="#32300F"/><rect x="6.8" y="5.6" width="2.4" height="7.2" rx="1" fill="#32300F"/><rect x="10.4" y="3.2" width="2.4" height="9.6" rx="1" fill="#32300F"/></svg>`;
+function kpiCard({name, big, vs, chip, meterPct, src}) {
+  const ic = src === "xls" ? IC_XLS : src === "pbi" ? IC_PBI : "";
   return `<div class="card kpi">
+    ${ic ? `<span class="src">${ic}</span>` : ""}
     <div class="name">${name}</div>
     <div class="big num">${big}</div>
     ${vs ? `<div class="vs num">${vs}</div>` : ""}
@@ -590,23 +585,32 @@ function scopeTotals() {
 }
 function renderOverviewKpis() {
   const t = scopeTotals();
+  const leadsName = OV.ch === "ppc" ? "PPC LEADS" : OV.ch === "social" ? "SOCIAL LEADS" : "TOTAL LEADS";
+  const cplName = OV.ch === "all" ? "BLENDED CPL" : "CPL";
   $("#kpiGrid").innerHTML = [
-    kpiCard({name: "Spend", big: fmt$(t.spend_act), vs: "Plan: " + fmt$(t.spend_exp),
-      meterPct: t.spend_exp ? 100 * t.spend_act / t.spend_exp : 0,
-      chip: `<span class="chip warn">${(t.spend_exp ? 100 * t.spend_act / t.spend_exp : 0).toFixed(1)}% of plan spent</span>`}),
-    kpiCard({name: "Leads", big: fmtN(t.leads_act), vs: "Plan: " + fmtN(t.leads_exp),
-      meterPct: t.leads_exp ? 100 * t.leads_act / t.leads_exp : 0,
-      chip: diffChip(t.leads_act - t.leads_exp)}),
-    kpiCard({name: "Cost per lead", big: t.leads_act ? fmt$2(t.cpl_act) : "-", vs: "Plan: " + (t.cpl_exp ? fmt$2(t.cpl_exp) : "-"),
-      chip: t.leads_act && t.cpl_exp ? diffChip(t.cpl_act - t.cpl_exp, {money: true, goodWhenNegative: true}) : ""}),
-    kpiCard({name: "Live accounts", big: fmtN(t.live), vs: "Cost per account: " + (t.live ? fmt$(t.cpa) : "-")}),
-    kpiCard({name: "Funded accounts", big: fmtN(t.funded), vs: "Cost per funded: " + (t.funded ? fmt$(t.cpfa) : "-"),
-      chip: `<span class="chip ${t.a2f >= 10 ? "up" : "warn"}">${t.a2f.toFixed(1)}% of live accounts fund</span>`}),
-    kpiCard({name: "Net money in", big: fmt$(t.nmi),
-      vs: `Deposits ${fmt$(t.deposits)}, withdrawals ${fmt$(Math.abs(t.withdrawals))}`,
-      chip: `<span class="chip ${t.roi > 0 ? "up" : "down"}">${fmtP(t.roi)} ROI</span>`}),
+    kpiCard({name: "SPENT", big: fmt$(t.spend_act), src: "pbi"}),
+    kpiCard({name: leadsName, big: fmtN(t.leads_act), src: "pbi"}),
+    kpiCard({name: cplName, big: t.leads_act ? fmt$2(t.cpl_act) : "-", src: "pbi"}),
+    kpiCard({name: "LIVE ACCOUNTS", big: fmtN(t.live), src: "pbi"}),
+    kpiCard({name: "FUNDED ACCOUNTS", big: fmtN(t.funded), src: "pbi"}),
+    kpiCard({name: "DEPOSITS", big: fmt$(t.deposits), src: "pbi"}),
+    kpiCard({name: "NET MONEY IN", big: fmt$(t.nmi), src: "pbi"}),
+    kpiCard({name: "ROI", big: fmtP(t.roi), src: "pbi"}),
   ].join("");
 }
+/* the plan headline band, exactly the five numbers from the top of the budget Excel */
+function renderPlanBand() {
+  const p = TOT.ppc, so = TOT.social, a = TOT.all;
+  $("#planBand").innerHTML = [
+    kpiCard({name: "TOTAL BUDGET", big: fmt$(a.spend_exp), src: "xls"}),
+    kpiCard({name: "PPC / SEARCH", big: fmt$(p.spend_exp), src: "xls"}),
+    kpiCard({name: "PAID SOCIAL", big: fmt$(so.spend_exp), src: "xls"}),
+    kpiCard({name: "TOTAL LEADS / MONTH", big: fmtN(a.leads_exp), src: "xls"}),
+    kpiCard({name: "BLENDED CPL", big: fmt$2(a.cpl_exp), src: "xls"}),
+  ].map(c => c.replace('class="card kpi"', 'class="card kpi plan-kpi"')).join("");
+}
+renderPlanBand();
+
 
 /* ---------- overview charts ---------- */
 Chart.defaults.font.family = "'Archivo', system-ui, sans-serif";
@@ -781,72 +785,95 @@ $("#ovCountryGrid").addEventListener("click", e => {
 renderOverview();
 
 /* ---------- channel tables (PPC / Social) ---------- */
-const COLS = [
-  {k: "country", label: "Country", left: true, sticky: true},
-  {k: "spend_exp", label: "Spend plan", f: fmt$},
-  {k: "spend_act", label: "Spend actual", f: fmt$},
-  {k: "spend_diff", label: "Diff", d: {money: true, goodWhenNegative: true}},
-  {k: "leads_exp", label: "Leads plan", f: v => fmtN(v)},
-  {k: "leads_act", label: "Leads actual", f: fmtN},
-  {k: "leads_diff", label: "Diff", d: {}},
-  {k: "cpl_exp", label: "CPL plan", f: fmt$2},
-  {k: "cpl_act", label: "CPL actual", f: fmt$2},
-  {k: "cpl_diff", label: "Diff", d: {money: true, goodWhenNegative: true}},
-  {k: "live", label: "Live accts", f: fmtN},
-  {k: "cpa", label: "CPA", f: v => v ? fmt$(v) : "-"},
-  {k: "funded", label: "Funded", f: fmtN},
-  {k: "cpfa", label: "CPFA", f: v => v ? fmt$(v) : "-"},
-  {k: "a2f", label: "Live to funded", f: v => v ? fmtP(v) : "-"},
-  {k: "deposits", label: "Deposits", f: v => v ? fmt$(v) : "-"},
-  {k: "withdrawals", label: "Withdrawals", f: v => v ? fmt$(Math.abs(v)) : "-"},
-  {k: "nmi", label: "Net money in", f: v => v ? fmt$(v) : "-"},
-  {k: "roi", label: "ROI", f: v => v ? fmtP(v) : "-"},
-];
-function makeTable(rows, tot, wrapId, state) {
+/* combined per-country rows for the overview table */
+const COMBINED = DATA.ppc.map(p => {
+  const so = DATA.social.find(x => x.country === p.country);
+  const r = {country: p.country, iso: p.iso};
+  ["spend_exp", "spend_act", "leads_exp", "leads_act", "live", "funded", "deposits", "withdrawals", "nmi"]
+    .forEach(k => r[k] = p[k] + so[k]);
+  r.spend_diff = r.spend_act - r.spend_exp;
+  r.leads_diff = r.leads_act - r.leads_exp;
+  r.cpl_exp = r.leads_exp ? r.spend_exp / r.leads_exp : 0;
+  r.cpl_act = r.leads_act ? r.spend_act / r.leads_act : 0;
+  r.cpl_diff = r.cpl_act - r.cpl_exp;
+  r.cpa = r.live ? r.spend_act / r.live : 0;
+  r.cpfa = r.funded ? r.spend_act / r.funded : 0;
+  r.a2f = r.live ? 100 * r.funded / r.live : 0;
+  r.roi = r.spend_act ? 100 * r.nmi / r.spend_act : 0;
+  return r;
+});
+
+/* transposed tables: KPIs down the left, countries across the top, Excel naming */
+function metricRows(leadsTerm, budgetTerm) {
+  return [
+    {grp: `PLAN, from the budget Excel`, src: "xls"},
+    {k: "spend_exp", label: budgetTerm, f: fmt$},
+    {k: "leads_exp", label: leadsTerm, f: fmtN},
+    {k: "cpl_exp", label: "CPL $", f: fmt$2},
+    {grp: `ACTUAL, from Power BI`, src: "pbi"},
+    {k: "spend_act", label: "Spend $ / month", f: fmt$},
+    {k: "leads_act", label: "Leads / month", f: fmtN},
+    {k: "cpl_act", label: "CPL $", f: v => v ? fmt$2(v) : "-"},
+    {k: "live", label: "Live accounts", f: fmtN},
+    {k: "funded", label: "Funded accounts", f: fmtN},
+    {k: "a2f", label: "Live to funded %", f: v => v ? fmtP(v) : "-"},
+    {k: "cpa", label: "Cost per account $", f: v => v ? fmt$(v) : "-"},
+    {k: "cpfa", label: "Cost per funded $", f: v => v ? fmt$(v) : "-"},
+    {k: "deposits", label: "Deposits $", f: v => v ? fmt$(v) : "-"},
+    {k: "withdrawals", label: "Withdrawals $", f: v => v ? fmt$(Math.abs(v)) : "-"},
+    {k: "nmi", label: "Net money in $", f: v => v ? fmt$(v) : "-"},
+    {k: "roi", label: "ROI %", f: v => v ? fmtP(v) : "-"},
+    {grp: `DIFFERENCE, actual vs plan`, src: ""},
+    {k: "spend_diff", label: "Budget difference $", d: {money: true, goodWhenNegative: true}},
+    {k: "leads_diff", label: "Leads difference", d: {}},
+    {k: "cpl_diff", label: "CPL difference $", d: {money: true, goodWhenNegative: true}},
+  ];
+}
+function totalsOf(data) {
+  const t = {};
+  ["spend_exp", "spend_act", "leads_exp", "leads_act", "live", "funded", "deposits", "withdrawals", "nmi"]
+    .forEach(k => t[k] = data.reduce((s, r) => s + r[k], 0));
+  t.spend_diff = t.spend_act - t.spend_exp;
+  t.leads_diff = t.leads_act - t.leads_exp;
+  t.cpl_exp = t.leads_exp ? t.spend_exp / t.leads_exp : 0;
+  t.cpl_act = t.leads_act ? t.spend_act / t.leads_act : 0;
+  t.cpl_diff = t.cpl_act - t.cpl_exp;
+  t.cpa = t.live ? t.spend_act / t.live : 0;
+  t.cpfa = t.funded ? t.spend_act / t.funded : 0;
+  t.a2f = t.live ? 100 * t.funded / t.live : 0;
+  t.roi = t.spend_act ? 100 * t.nmi / t.spend_act : 0;
+  return t;
+}
+function makeTable(rows, wrapId, state, leadsTerm, budgetTerm) {
   const wrap = $(wrapId);
+  const METRICS = metricRows(leadsTerm, budgetTerm);
   function render() {
     let data = rows.filter(r => r.country.toLowerCase().includes(state.q));
-    data.sort((a, b) => {
-      const va = a[state.sortK], vb = b[state.sortK];
-      if (typeof va === "string") return state.dir * va.localeCompare(vb);
-      return state.dir * (va - vb);
-    });
-    const head = COLS.map(c =>
-      `<th class="sortable${c.sticky ? " sticky" : ""}" data-k="${c.k}"${c.left ? ' style="text-align:left;"' : ""}>${c.label}
-       <span class="arr">${state.sortK === c.k ? (state.dir === 1 ? "\u25B2" : "\u25BC") : ""}</span></th>`).join("");
-    const body = data.map(r => "<tr>" + COLS.map(c => {
-      if (c.k === "country") return `<td class="sticky">${flag(r.iso)}${r.country}</td>`;
-      if (c.d) return `<td class="num">${diffCell(r[c.k], c.d)}</td>`;
-      return `<td class="num">${c.f(r[c.k])}</td>`;
-    }).join("") + "</tr>").join("");
-    const foot = "<tr>" + COLS.map(c => {
-      if (c.k === "country") return `<td class="sticky">Total (${data.length} shown)</td>`;
-      const sum = k => data.reduce((s, r) => s + r[k], 0);
-      switch (c.k) {
-        case "spend_exp": return `<td class="num">${fmt$(sum("spend_exp"))}</td>`;
-        case "spend_act": return `<td class="num">${fmt$(sum("spend_act"))}</td>`;
-        case "spend_diff": return `<td class="num">${diffCell(sum("spend_act") - sum("spend_exp"), {money: true, goodWhenNegative: true})}</td>`;
-        case "leads_exp": return `<td class="num">${fmtN(sum("leads_exp"))}</td>`;
-        case "leads_act": return `<td class="num">${fmtN(sum("leads_act"))}</td>`;
-        case "leads_diff": return `<td class="num">${diffCell(sum("leads_act") - sum("leads_exp"), {})}</td>`;
-        case "cpl_exp": return `<td class="num">${fmt$2(sum("leads_exp") ? sum("spend_exp") / sum("leads_exp") : 0)}</td>`;
-        case "cpl_act": return `<td class="num">${fmt$2(sum("leads_act") ? sum("spend_act") / sum("leads_act") : 0)}</td>`;
-        case "live": return `<td class="num">${fmtN(sum("live"))}</td>`;
-        case "cpa": return `<td class="num">${sum("live") ? fmt$(sum("spend_act") / sum("live")) : "-"}</td>`;
-        case "funded": return `<td class="num">${fmtN(sum("funded"))}</td>`;
-        case "cpfa": return `<td class="num">${sum("funded") ? fmt$(sum("spend_act") / sum("funded")) : "-"}</td>`;
-        case "a2f": return `<td class="num">${sum("live") ? fmtP(100 * sum("funded") / sum("live")) : "-"}</td>`;
-        case "deposits": return `<td class="num">${fmt$(sum("deposits"))}</td>`;
-        case "withdrawals": return `<td class="num">${fmt$(Math.abs(sum("withdrawals")))}</td>`;
-        case "nmi": return `<td class="num">${fmt$(sum("nmi"))}</td>`;
-        case "roi": return `<td class="num">${sum("spend_act") ? fmtP(100 * sum("nmi") / sum("spend_act")) : "-"}</td>`;
-        default: return "<td></td>";
+    data.sort((a, b) => state.dir * (a[state.sortK] - b[state.sortK]));
+    const tot = totalsOf(data);
+    const nCols = data.length + 1;
+    const head = `<tr>
+      <th class="sticky mlab" style="text-align:left;">KPI</th>
+      <th class="allcol">ALL (${data.length})</th>
+      ${data.map(r => `<th class="ccol">${flag(r.iso)}${r.country}</th>`).join("")}
+    </tr>`;
+    const body = METRICS.map(m => {
+      if (m.grp) {
+        const ic = m.src === "xls" ? IC_XLS : m.src === "pbi" ? IC_PBI : "";
+        return `<tr class="grp"><td class="sticky grp-td">${ic}${m.grp}</td><td colspan="${nCols}"></td></tr>`;
       }
-    }).join("") + "</tr>";
-    wrap.innerHTML = `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table>`;
-    $$("th.sortable", wrap).forEach(th => th.addEventListener("click", () => {
-      const k = th.dataset.k;
-      if (state.sortK === k) state.dir *= -1; else { state.sortK = k; state.dir = k === "country" ? 1 : -1; }
+      const cell = v => m.d ? diffCell(v, m.d) : m.f(v);
+      const arrow = state.sortK === m.k ? (state.dir === 1 ? " \u25B2" : " \u25BC") : "";
+      return `<tr>
+        <td class="sticky mlab sortable" data-k="${m.k}" title="Click to sort countries by this KPI">${m.label}<span class="arr">${arrow}</span></td>
+        <td class="num allcol">${cell(tot[m.k])}</td>
+        ${data.map(r => `<td class="num">${cell(r[m.k])}</td>`).join("")}
+      </tr>`;
+    }).join("");
+    wrap.innerHTML = `<table class="tpose"><thead>${head}</thead><tbody>${body}</tbody></table>`;
+    $$("td.sortable", wrap).forEach(td => td.addEventListener("click", () => {
+      const k = td.dataset.k;
+      if (state.sortK === k) state.dir *= -1; else { state.sortK = k; state.dir = -1; }
       render();
     }));
   }
@@ -855,8 +882,11 @@ function makeTable(rows, tot, wrapId, state) {
 }
 const ppcState = {q: "", sortK: "spend_act", dir: -1};
 const socState = {q: "", sortK: "spend_act", dir: -1};
-const renderPpc = makeTable(DATA.ppc, DATA.ppc_tot, "#ppcTableWrap", ppcState);
-const renderSoc = makeTable(DATA.social, DATA.soc_tot, "#socTableWrap", socState);
+const ovtState = {q: "", sortK: "spend_act", dir: -1};
+const renderPpc = makeTable(DATA.ppc, "#ppcTableWrap", ppcState, "PPC leads / month", "Budget $ / month");
+const renderSoc = makeTable(DATA.social, "#socTableWrap", socState, "Social leads / month", "Budget $ / month");
+const renderOvt = makeTable(COMBINED, "#ovTableWrap", ovtState, "Total Leads / month", "Total budget $ / month");
+$("#ovtSearch").addEventListener("input", e => { ovtState.q = e.target.value.toLowerCase(); renderOvt(); });
 $("#ppcSearch").addEventListener("input", e => { ppcState.q = e.target.value.toLowerCase(); renderPpc(); });
 $("#socSearch").addEventListener("input", e => { socState.q = e.target.value.toLowerCase(); renderSoc(); });
 
