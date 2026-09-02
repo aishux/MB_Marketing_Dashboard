@@ -30,6 +30,16 @@ a{color:var(--brand);}
 .brandrow img.logo{height:52px; width:auto; border-radius:12px; box-shadow:0 2px 10px rgba(14,27,61,.14);}
 .country-grid.ov{grid-template-columns:repeat(auto-fill,minmax(126px,1fr)); margin-bottom:16px;}
 .country-grid.ov .cbtn{padding:7px 10px; font-size:12.5px;}
+.ring-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:16px 8px; padding:10px 2px 4px;}
+.ringcell{text-align:center; transition:opacity .25s;}
+.ringcell.dm{opacity:.45;}
+.ringcell.sel .ring{box-shadow:0 4px 14px rgba(18,36,94,.28);}
+.ring{width:88px; height:88px; border-radius:50%; margin:0 auto; display:flex; align-items:center; justify-content:center;}
+.ring-in{width:66px; height:66px; border-radius:50%; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;}
+.ring-in b{font-size:15px; letter-spacing:-.3px; line-height:1;}
+.ring-in span{font-size:10.5px; font-weight:800; color:#5A6880;}
+.ring-name{margin-top:7px; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:5px;}
+.ring-plan{font-size:11px; color:#5A6880; margin-top:1px;}
 .brandrow h1{font-size:19px; font-weight:700; letter-spacing:-.01em;}
 .brandrow .pills{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;}
 .pill{display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:999px; font-size:12px; font-weight:600; background:var(--blue-soft); color:var(--brand);}
@@ -330,13 +340,13 @@ tfoot td:first-child{text-align:left;}
       <div class="grid charts2">
         <div class="card chart-card">
           <h3>Spend by country: plan vs actual</h3>
-          <div class="sub">Striped bar is the plan, solid bar is what was really spent. Pick a country above to highlight it here.</div>
+          <div class="sub">Striped bar is the plan, solid bar is the real spend, with the exact amount printed at the end of each bar.</div>
           <div class="chart-box tall"><canvas id="chSpend"></canvas></div>
         </div>
         <div class="card chart-card">
           <h3>Leads by country: plan vs actual</h3>
-          <div class="sub">Same countries, same order, so the two charts read side by side.</div>
-          <div class="chart-box tall"><canvas id="chLeads"></canvas></div>
+          <div class="sub">Every ring fills up as the country delivers its lead plan. The real lead count sits in the middle, the plan sits underneath.</div>
+          <div class="ring-grid" id="leadRings"></div>
         </div>
         <div class="card chart-card">
           <h3>From lead to funded account</h3>
@@ -601,7 +611,7 @@ function renderOverviewKpis() {
 /* ---------- overview charts ---------- */
 Chart.defaults.font.family = "'Archivo', system-ui, sans-serif";
 Chart.defaults.color = "#5A6880";
-let chSpend, chLeads, chFunnel, chSplit;
+let chSpend, chFunnel, chSplit;
 const PLAN_FILL = "rgba(62,107,245,.16)";
 const PLAN_BORDER = "rgba(62,107,245,.45)";
 const ACT_BLUE = "#3E6BF5", ACT_FADE = "#C4D2F5", ACT_DARK = "#12245E";
@@ -622,8 +632,29 @@ function topRows() {
   }
   return rows;
 }
-function hbar(ctx, labels, plan, act, money) {
+const fmtK = v => v >= 1000 ? "$" + (v / 1000).toFixed(v >= 99500 ? 0 : 1) + "k" : "$" + Math.round(v);
+function hbar(ctx, labels, plan, act) {
   const colors = labels.map(l => OV.country === "all" ? ACT_BLUE : (l === OV.country ? ACT_DARK : ACT_FADE));
+  const barLabels = {
+    id: "barLabels",
+    afterDatasetsDraw(chart) {
+      const meta = chart.getDatasetMeta(1);
+      const g = chart.ctx;
+      g.save();
+      g.font = "800 11px Archivo, system-ui, sans-serif";
+      g.textAlign = "left";
+      g.textBaseline = "middle";
+      meta.data.forEach((bar, i) => {
+        const label = fmtK(chart.data.datasets[1].data[i]);
+        g.lineWidth = 3;
+        g.strokeStyle = "rgba(255,255,255,.92)";
+        g.strokeText(label, bar.x + 6, bar.y);
+        g.fillStyle = "#0E1B3D";
+        g.fillText(label, bar.x + 6, bar.y);
+      });
+      g.restore();
+    }
+  };
   return new Chart(ctx, {
     type: "bar",
     data: {labels, datasets: [
@@ -635,23 +666,39 @@ function hbar(ctx, labels, plan, act, money) {
     options: {
       indexAxis: "y", maintainAspectRatio: false, responsive: true,
       animation: reduced ? false : {duration: 600},
+      layout: {padding: {right: 56}},
       plugins: {
         legend: {position: "top", align: "start", labels: {boxWidth: 14, boxHeight: 14, borderRadius: 4, useBorderRadius: true}},
-        tooltip: {callbacks: {label: c => c.dataset.label + ": " + (money ? fmt$(c.parsed.x) : fmtN(c.parsed.x))}}
+        tooltip: {callbacks: {label: c => c.dataset.label + ": " + fmt$(c.parsed.x)}}
       },
       scales: {
-        x: {grid: {color: "#EDF1F8"}, ticks: {callback: v => money ? "$" + (v / 1000) + "k" : fmtN(v)}},
+        x: {grid: {color: "#EDF1F8"}, ticks: {callback: v => "$" + (v / 1000) + "k"}},
         y: {grid: {display: false}, ticks: {font: {weight: 600}}}
       }
-    }
+    },
+    plugins: [barLabels]
   });
 }
 function renderCharts() {
   const rows = topRows();
   const labels = rows.map(r => r.country);
-  [chSpend, chLeads, chFunnel, chSplit].forEach(c => c && c.destroy());
-  chSpend = hbar($("#chSpend"), labels, rows.map(r => r.spend_exp), rows.map(r => r.spend_act), true);
-  chLeads = hbar($("#chLeads"), labels, rows.map(r => Math.round(r.leads_exp)), rows.map(r => r.leads_act), false);
+  [chSpend, chFunnel, chSplit].forEach(c => c && c.destroy());
+  chSpend = hbar($("#chSpend"), labels, rows.map(r => r.spend_exp), rows.map(r => r.spend_act));
+  $("#leadRings").innerHTML = rows.map(r => {
+    const plan = Math.round(r.leads_exp);
+    const pct = plan ? 100 * r.leads_act / plan : 0;
+    const sel = OV.country !== "all" && r.country === OV.country;
+    const dim = OV.country !== "all" && !sel;
+    const col = pct >= 100 ? "var(--green)" : sel ? "#12245E" : dim ? "#C4D2F5" : "var(--brand)";
+    return `<div class="ringcell${sel ? " sel" : ""}${dim ? " dm" : ""}"
+      title="${r.country}: ${fmtN(r.leads_act)} leads of ${fmtN(plan)} planned (${pct.toFixed(0)}%)">
+      <div class="ring" style="background:conic-gradient(${col} ${Math.min(pct, 100).toFixed(1)}%, #EDF1F8 0);">
+        <div class="ring-in"><b class="num">${fmtN(r.leads_act)}</b><span>${pct.toFixed(0)}%</span></div>
+      </div>
+      <div class="ring-name">${flag(r.iso)}${r.country}</div>
+      <div class="ring-plan num">plan ${fmtN(plan)}</div>
+    </div>`;
+  }).join("");
 
   const t = scopeTotals();
   const valueLabels = {
@@ -1035,7 +1082,7 @@ function renderRecs() {
     <td class="num">${fmt$(r.spend)}</td>
     <td class="num"><div class="roi-cell"><div class="roi-track"><i style="width:${Math.min(100, 100 * r.roi / maxRoi)}%; ${r.roi === 0 ? "background:#D0D9E6;" : ""}"></i></div><span class="${r.funded > 0 && r.roi > 0 ? "pos" : (r.spend >= 2000 && r.funded === 0 ? "neg" : "dim")}">${fmtP(r.roi)}</span></div></td>
     <td class="num">${fmtN(r.funded)}</td>
-    <td style="text-align:left;"><span class="badge ${r.action === "Increase" ? "inc" : r.action === "Decrease" ? "dec" : "hold"}">${r.action}</span></td>
+    <td style="text-align:left;"><span class="badge ${r.action === "Increase" ? "inc" : r.action === "Decrease" ? "dec" : "hold"}">${r.action === "Increase" ? "\u25B2 " : r.action === "Decrease" ? "\u25BC " : ""}${r.action}</span></td>
     <td class="num">${r.delta === 0 ? '<span class="dim">-</span>' : `<span class="${r.delta > 0 ? "pos" : "neg"}">${fmt$(Math.abs(r.delta))} ${r.delta > 0 ? "more" : "less"}</span>`}</td>
     <td style="text-align:left; white-space:normal; max-width:340px; font-size:12px;">${r.why}</td>
   </tr>`).join("") || `<tr><td colspan="8" style="text-align:center; padding:26px; color:#5A6880;">No rows match these filters. Clear a filter to see more.</td></tr>`;
