@@ -51,6 +51,9 @@ a{color:var(--brand);}
 .tab-btn:hover{color:var(--ink);}
 .tab-btn.active{color:var(--brand); border-bottom-color:var(--brand);}
 .tab-btn:focus-visible{outline:2px solid var(--brand); outline-offset:-2px; border-radius:6px;}
+.tab-btn.rd{background:linear-gradient(180deg,#FCEAE8,#FEF5F4); color:#C2362B; border-radius:10px 10px 0 0;}
+.tab-btn.rd:hover{color:#8F241C; background:linear-gradient(180deg,#F9DCD9,#FDEFEE);}
+.tab-btn.rd.active{color:#D64545; border-bottom-color:#D64545; background:linear-gradient(180deg,#F9DCD9,#FEF5F4);}
 .tab-btn.ai{background:linear-gradient(180deg,#E4F6EC,#F2FBF6); color:#0B7E52; border-radius:10px 10px 0 0;}
 .tab-btn.ai:hover{color:#075B3B; background:linear-gradient(180deg,#D8F1E3,#ECF9F2);}
 .tab-btn.ai.active{color:#0B915F; border-bottom-color:#0B915F; background:linear-gradient(180deg,#D8F1E3,#F2FBF6);}
@@ -90,12 +93,24 @@ a{color:var(--brand);}
 /* ---------- KPI cards ---------- */
 .kpis{grid-template-columns:repeat(4,1fr);}
 .plan-band{grid-template-columns:repeat(5,1fr);}
+#kpiGrid{gap:16px 34px; height:100%; grid-template-rows:1fr 1fr; align-content:stretch;}
+#kpiGrid .kpi{align-self:center; width:100%; min-height:124px;}
+.act-wrap{align-items:stretch;}
+.kpi.kflow{border-left:4px solid var(--kc); overflow:visible;}
+.kpi.kflow .kdot{width:9px; height:9px; border-radius:50%; background:var(--kc); flex:none;}
+.kpi.kflow .big{font-size:25px;}
+.kar{position:absolute; color:#9FB2D9; z-index:2; line-height:0;}
+.kar svg{width:28px; height:28px;}
+.kar.r{right:-32px; top:50%; transform:translateY(-50%);}
+.kar.l{left:-32px; top:50%; transform:translateY(-50%) rotate(180deg);}
+.kar.d{top:100%; left:50%; transform:translateX(-50%) rotate(90deg); margin-top:14px;}
+@media (max-width:1100px){ .kar{display:none;} #kpiGrid{row-gap:16px;} }
 #ppcKpis, #socKpis{grid-template-columns:repeat(5,1fr);}
 @media (max-width:1100px){ .kpis, #ppcKpis, #socKpis{grid-template-columns:repeat(2,1fr);} .plan-band{grid-template-columns:repeat(2,1fr);} }
-.kpi{padding:16px 18px 15px; position:relative; display:flex; flex-direction:column; justify-content:center; min-height:92px;}
+.kpi{padding:14px 16px 13px; position:relative; display:flex; flex-direction:column; justify-content:center; min-height:88px;}
 .kpi .src{position:absolute; top:10px; right:10px; line-height:0; opacity:.9;}
 .kpi .src svg{width:13px; height:13px; margin:0;}
-.kpi .name{font-size:11px; font-weight:700; letter-spacing:.07em; color:#8A96AC; margin-bottom:6px; text-transform:uppercase; padding-right:20px;}
+.kpi .name{font-size:11.5px; font-weight:800; letter-spacing:.06em; color:#45536E; margin-bottom:6px; text-transform:uppercase; padding-right:20px; display:flex; align-items:center; gap:7px;}
 .kpi .big{font-size:28px; font-weight:800; letter-spacing:-.02em; line-height:1.1; color:var(--ink); font-variant-numeric:tabular-nums;}
 .kpi .vs{font-size:12.5px; color:#5A6880; margin-top:3px;}
 .kpi .meter{height:6px; border-radius:999px; background:#EDF1F8; margin-top:10px; overflow:hidden;}
@@ -331,12 +346,12 @@ tfoot td:first-child{text-align:left;}
 .fa-cap{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#5A6880; white-space:nowrap;}
 .flow-note{font-size:13px; color:#33415E; margin:4px 0 10px;}
 .flow-sub{font-size:11.5px; color:#5A6880; text-align:center;}
-.act-wrap{display:grid; grid-template-columns:1fr 300px; gap:16px; align-items:stretch;}
+.act-wrap{display:grid; grid-template-columns:1fr 300px; gap:16px; align-items:start;}
 @media (max-width:1100px){ .act-wrap{grid-template-columns:1fr;} }
-.funnel-card{padding:16px 18px; display:flex; flex-direction:column;}
+.funnel-card{padding:18px 22px; display:flex; flex-direction:column;}
 .funnel-card .name{font-size:11px; font-weight:700; letter-spacing:.07em; color:#8A96AC; margin-bottom:10px; text-transform:uppercase;}
 .fun{flex:1; display:flex; align-items:center; justify-content:center;}
-.fun svg{width:100%; height:auto; max-height:340px; overflow:visible;}
+.fun svg{width:100%; max-width:720px; height:auto; max-height:none; overflow:visible; margin:0 auto;}
 .fseg-g{animation:funIn .5s ease both;}
 .fdot{animation:funPulse 2.2s ease-in-out 1s infinite;}
 @keyframes funIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;}}
@@ -401,8 +416,8 @@ tfoot td:first-child{text-align:left;}
       <button class="tab-btn" data-tab="ppc">PPC</button>
       <button class="tab-btn" data-tab="social">Paid Social</button>
       <button class="tab-btn" data-tab="country">By Country</button>
-      <button class="tab-btn ai" data-tab="recs">Recommended - Budget Allocations</button>
-      <button class="tab-btn ai" data-tab="strategy">AI Suggested Strategies</button>
+      <button class="tab-btn ai" data-tab="recs">AI Recommended - Budget Allocations</button>
+      <button class="tab-btn rd" data-tab="strategy">AI Suggested Strategies</button>
     </nav>
   </div>
 </div>
@@ -581,7 +596,7 @@ tfoot td:first-child{text-align:left;}
             <div class="steps-t">What to do</div>
             <div class="step"><span class="sd">1</span><p>Pause the budgets that spent big money and funded nobody.</p></div>
             <div class="step"><span class="sd">2</span><p>Move the freed money to the small budgets that are already making returns.</p></div>
-            <div class="step"><span class="sd">3</span><p>The exact number for every country is on the Recommended - Budget Allocations tab.</p></div>
+            <div class="step"><span class="sd">3</span><p>The exact number for every country is on the AI Recommended - Budget Allocations tab.</p></div>
           </div>
         </div>
       </div>
@@ -722,65 +737,84 @@ function scopeTotals() {
 function renderOverviewKpis() {
   const t = scopeTotals();
   const leadsName = OV.ch === "ppc" ? "PPC LEADS" : OV.ch === "social" ? "SOCIAL LEADS" : "TOTAL LEADS";
-  const cplName = OV.ch === "all" ? "BLENDED CPL" : "CPL";
+  const cplName = OV.ch === "all" ? "TOTAL CPL" : "CPL";
+  const AR = dir => `<span class="kar ${dir}"><svg viewBox="0 0 26 26" aria-hidden="true">
+    <path d="M4 13h15m0 0l-6-6m6 6l-6 6" fill="none" stroke="currentColor" stroke-width="2.6"
+      stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+  const card = (name, big, color, arrow, hero) => `
+    <div class="card kpi kflow${hero ? " khero" : ""}" style="--kc:${color};">
+      <span class="src">${IC_PBI}</span>
+      ${arrow ? AR(arrow) : ""}
+      <div class="name"><i class="kdot"></i>${name}</div>
+      <div class="big num">${big}</div>
+    </div>`;
   $("#kpiGrid").innerHTML = [
-    kpiCard({name: "SPENT", big: fmt$(t.spend_act), src: "pbi"}),
-    kpiCard({name: leadsName, big: fmtN(t.leads_act), src: "pbi"}),
-    kpiCard({name: "LIVE ACCOUNTS", big: fmtN(t.live), src: "pbi"}),
-    kpiCard({name: "FUNDED ACCOUNTS", big: fmtN(t.funded), src: "pbi"}),
-    kpiCard({name: cplName, big: t.leads_act ? fmt$2(t.cpl_act) : "-", src: "pbi"}),
-    kpiCard({name: "DEPOSITS", big: fmt$(t.deposits), src: "pbi"}),
-    kpiCard({name: "NET MONEY IN", big: fmt$(t.nmi), src: "pbi"}),
-    kpiCard({name: "ROI", big: fmtP(t.roi), src: "pbi"}),
+    /* row 1, money flows left to right */
+    card("SPENT", fmt$(t.spend_act), "#4A76F6", "r"),
+    card(cplName, t.leads_act ? fmt$2(t.cpl_act) : "-", "#6C5CE7", "r"),
+    card(leadsName, fmtN(t.leads_act), "#8E5CF0", "r"),
+    card("LIVE ACCOUNTS", fmtN(t.live), "#2FA8D6", "d"),
+    /* row 2, flows right to left, ends at ROI */
+    card("ROI", fmtP(t.roi), "#F58220", ""),
+    card("NET MONEY IN", fmt$(t.nmi), "#0B7E52", "l"),
+    card("DEPOSITS", fmt$(t.deposits), "#12A5A5", "l"),
+    card("FUNDED ACCOUNTS", fmtN(t.funded), "#1CBF83", "l"),
   ].join("");
   const pctOpen = t.leads_act ? 100 * t.live / t.leads_act : 0;
   const pctFund = t.live ? 100 * t.funded / t.live : 0;
   const CX = 118;
-  const seg = (hwTop, hwBot, y, h, id, from, to, delay) => `
+  const seg = (hwTop, hwBot, y, h, id, delay) => `
     <g class="fseg-g" style="animation-delay:${delay}ms;">
       <path d="M${CX - hwTop},${y} L${CX + hwTop},${y} L${CX + hwBot},${y + h} L${CX - hwBot},${y + h} Z"
         fill="url(#${id})" filter="url(#fsh)"/>
       <path d="M${CX - hwTop + 6},${y + 4} L${CX - hwTop * .45},${y + 4} L${CX - hwBot * .45},${y + h - 4} L${CX - hwBot + 5},${y + h - 4} Z"
         fill="rgba(255,255,255,.16)"/>
-      <ellipse cx="${CX}" cy="${y}" rx="${hwTop}" ry="${Math.max(4, hwTop * .07)}" fill="rgba(255,255,255,.30)"/>
+      <ellipse cx="${CX}" cy="${y}" rx="${hwTop}" ry="${Math.max(3.5, hwTop * .065)}" fill="rgba(255,255,255,.30)"/>
     </g>`;
   const num = (v, y, size, delay) => `<g class="fseg-g" style="animation-delay:${delay}ms;">
       <text x="${CX}" y="${y}" text-anchor="middle" fill="#fff" font-weight="800" font-size="${size}"
-        style="letter-spacing:-.3px;" filter="url(#tsh)">${fmtN(v)}</text></g>`;
+        style="letter-spacing:-.3px;" filter="url(#tsh)">${v}</text></g>`;
   const cap = (txt, y, delay) => `<g class="fseg-g" style="animation-delay:${delay}ms;">
       <text x="${CX}" y="${y}" text-anchor="middle" fill="rgba(255,255,255,.95)" font-weight="800"
-        font-size="9.5" style="letter-spacing:.09em;">${txt}</text></g>`;
+        font-size="11" style="letter-spacing:.09em;">${txt}</text></g>`;
   const pill = (x, y, txt, color, delay) => {
-    const wpx = txt.length * 5.6 + 22;
+    const wpx = txt.length * 6.9 + 26;
     return `<g class="fseg-g" style="animation-delay:${delay}ms;">
-      <line x1="${x}" y1="${y}" x2="${x + 16}" y2="${y}" stroke="#C6CFDE" stroke-width="1.6"/>
-      <circle cx="${x}" cy="${y}" r="2.8" fill="${color}"/>
-      <rect x="${x + 18}" y="${y - 11}" width="${wpx}" height="22" rx="11" fill="#fff" stroke="#E4EAF5"/>
-      <circle cx="${x + 29}" cy="${y}" r="3.4" fill="${color}"/>
-      <text x="${x + 37}" y="${y + 3.5}" fill="#33415E" font-weight="800" font-size="10">${txt}</text></g>`;
+      <line x1="${x}" y1="${y}" x2="${x + 12}" y2="${y}" stroke="#C6CFDE" stroke-width="1.8"/>
+      <circle cx="${x}" cy="${y}" r="3.2" fill="${color}"/>
+      <rect x="${x + 14}" y="${y - 13}" width="${wpx}" height="26" rx="13" fill="#fff" stroke="#E4EAF5"/>
+      <circle cx="${x + 26}" cy="${y}" r="3.8" fill="${color}"/>
+      <text x="${x + 35}" y="${y + 4.4}" fill="#33415E" font-weight="800" font-size="12.5">${txt}</text></g>`;
   };
   $("#ovFunnel").innerHTML = `
-  <svg viewBox="0 0 340 302" xmlns="http://www.w3.org/2000/svg" role="img"
-    aria-label="Funnel from leads to funded accounts" font-family="Archivo, system-ui, sans-serif">
+  <svg viewBox="0 0 366 466" xmlns="http://www.w3.org/2000/svg" role="img"
+    aria-label="Funnel from spend to ROI" font-family="Archivo, system-ui, sans-serif">
     <defs>
+      <linearGradient id="fgViolet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8E5CF0"/><stop offset="1" stop-color="#5B2FC0"/></linearGradient>
       <linearGradient id="fgBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A76F6"/><stop offset="1" stop-color="#2743B8"/></linearGradient>
       <linearGradient id="fgTeal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#48C6F0"/><stop offset="1" stop-color="#1F97CB"/></linearGradient>
       <linearGradient id="fgGreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1CBF83"/><stop offset="1" stop-color="#0A7A50"/></linearGradient>
-      <linearGradient id="fgTip" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A7A50"/><stop offset="1" stop-color="#075B3B"/></linearGradient>
+      <linearGradient id="fgGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A4256"/><stop offset="1" stop-color="#0E1B3D"/></linearGradient>
       <filter id="fsh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#12245E" flood-opacity=".22"/></filter>
       <filter id="tsh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#0E1B3D" flood-opacity=".35"/></filter>
     </defs>
-    ${seg(106, 76, 14, 74, "fgBlue", 0, 0, 0)}
-    ${num(t.leads_act, 50, 23, 60)}${cap("LEADS", 68, 60)}
-    ${pill(200, 100, pctOpen.toFixed(1) + "% open an account", "#48C6F0", 240)}
-    ${seg(72, 49, 98, 66, "fgTeal", 0, 0, 140)}
-    ${num(t.live, 130, 19, 200)}${cap("LIVE ACCOUNTS", 146, 200)}
-    ${pill(168, 176, pctFund.toFixed(1) + "% put money in", "#1CBF83", 460)}
-    ${seg(45, 26, 172, 58, "fgGreen", 0, 0, 320)}
-    ${num(t.funded, 199, 17, 380)}
-    ${pill(142, 230, "FUNDED CLIENTS", "#0B915F", 560)}
-    ${seg(24, 8, 238, 30, "fgTip", 0, 0, 440)}
-    <circle class="fdot" cx="${CX}" cy="283" r="6.5" fill="#0B915F"/>
+    <ellipse cx="${CX}" cy="12" rx="106" ry="8.5" fill="#EAF0FB" stroke="#C9D6F2" stroke-width="1.5"/>
+    ${seg(106, 88, 12, 72, "fgBlue", 0)}
+    ${num(fmt$(t.spend_act), 52, 23, 50)}${cap("SPENT", 72, 50)}
+    ${pill(184, 95, "CPL " + (t.leads_act ? fmt$2(t.cpl_act) : "-"), "#4A76F6", 200)}
+    ${seg(86, 70, 106, 68, "fgViolet", 110)}
+    ${num(fmtN(t.leads_act), 145, 24, 160)}${cap("TOTAL LEADS", 164, 160)}
+    ${pill(166, 185, pctOpen.toFixed(1) + "% open an account", "#48C6F0", 340)}
+    ${seg(68, 52, 196, 64, "fgTeal", 220)}
+    ${num(fmtN(t.live), 233, 22, 270)}${cap("LIVE ACCOUNTS", 251, 270)}
+    ${pill(148, 271, pctFund.toFixed(1) + "% put money in", "#1CBF83", 480)}
+    ${seg(50, 35, 282, 60, "fgGreen", 330)}
+    ${num(fmtN(t.funded), 317, 20, 380)}${cap("FUNDED", 334, 380)}
+    ${pill(130, 353, "net money in " + fmt$(t.nmi), "#0E1B3D", 620)}
+    ${seg(33, 15, 364, 56, "fgGold", 440)}
+    ${num(fmtP(t.roi), 396, 19, 500)}${cap("ROI", 412, 500)}
+    ${pill(112, 431, "$" + (t.spend_act ? (100 * t.nmi / t.spend_act).toFixed(2) : "0.00") + " back per $100 spent", "#0E1B3D", 760)}
+    <circle class="fdot" cx="${CX}" cy="452" r="7" fill="#0E1B3D"/>
   </svg>`;
 }
 /* the plan headline band, exactly the five numbers from the top of the budget Excel */
@@ -791,12 +825,12 @@ function renderPlanBand() {
     kpiCard({name: "PPC", big: fmt$(p.spend_exp), src: "xls"}),
     kpiCard({name: "PAID SOCIAL", big: fmt$(so.spend_exp), src: "xls"}),
     kpiCard({name: "TOTAL LEADS / MONTH", big: fmtN(a.leads_exp), src: "xls"}),
-    kpiCard({name: "BLENDED CPL", big: fmt$2(a.cpl_exp), src: "xls"}),
+    kpiCard({name: "TOTAL CPL", big: fmt$2(a.cpl_exp), src: "xls"}),
   ].map(c => c.replace('class="card kpi"', 'class="card kpi plan-kpi"')).join("");
 }
 renderPlanBand();
 $("#srcLegend").innerHTML =
-  `<span>${IC_XLS}Number from the budget Excel</span><span>${IC_PBI}Number live from Power BI</span>`;
+  `<span>${IC_XLS}Data from Excel</span><span>${IC_PBI}Data from Power BI</span>`;
 
 
 /* ---------- overview charts ---------- */
