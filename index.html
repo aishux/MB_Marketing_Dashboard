@@ -93,8 +93,8 @@ a{color:var(--brand);}
 /* ---------- KPI cards ---------- */
 .kpis{grid-template-columns:repeat(4,1fr);}
 .plan-band{grid-template-columns:repeat(5,1fr);}
-#kpiGrid{gap:16px 34px; height:100%; grid-template-rows:1fr 1fr; align-content:stretch;}
-#kpiGrid .kpi{align-self:center; width:100%; min-height:124px;}
+#kpiGrid{gap:44px 34px; height:100%; grid-auto-rows:min-content; align-content:center;}
+#kpiGrid .kpi{width:100%; min-height:132px;}
 .act-wrap{align-items:stretch;}
 .kpi.kflow{border-left:4px solid var(--kc); overflow:visible;}
 .kpi.kflow .kdot{width:9px; height:9px; border-radius:50%; background:var(--kc); flex:none;}
@@ -103,7 +103,7 @@ a{color:var(--brand);}
 .kar svg{width:28px; height:28px;}
 .kar.r{right:-32px; top:50%; transform:translateY(-50%);}
 .kar.l{left:-32px; top:50%; transform:translateY(-50%) rotate(180deg);}
-.kar.d{top:100%; left:50%; transform:translateX(-50%) rotate(90deg); margin-top:14px;}
+.kar.d{top:100%; left:50%; transform:translateX(-50%) rotate(90deg); margin-top:8px;}
 @media (max-width:1100px){ .kar{display:none;} #kpiGrid{row-gap:16px;} }
 #ppcKpis, #socKpis{grid-template-columns:repeat(5,1fr);}
 @media (max-width:1100px){ .kpis, #ppcKpis, #socKpis{grid-template-columns:repeat(2,1fr);} .plan-band{grid-template-columns:repeat(2,1fr);} }
@@ -397,6 +397,54 @@ tfoot td:first-child{text-align:left;}
 
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important; animation:none !important;}
+}
+
+/* ---------- mobile ---------- */
+@media (max-width:700px){
+  body{font-size:14px;}
+  .wrap{padding:14px 10px 40px;}
+  .topbar-inner{padding:10px 12px 0;}
+  .brandrow{gap:10px;}
+  .brandrow img.logo{height:26px;}
+  .brandrow h1{font-size:15.5px;}
+  .tabs{margin-top:8px; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{padding:9px 12px 11px; font-size:12.5px;}
+  .section{margin-bottom:20px;}
+  .section-head h2{font-size:15.5px;}
+  .kpis, #ppcKpis, #socKpis, .plan-band{grid-template-columns:repeat(2,1fr); gap:10px;}
+  #kpiGrid{gap:10px; height:auto; align-content:start;}
+  #kpiGrid .kpi{min-height:88px;}
+  .kpi{padding:12px 13px 11px; min-height:80px;}
+  .kpi .big{font-size:20px;}
+  .plan-kpi .big{font-size:19px;}
+  .kpi .name{font-size:10px; letter-spacing:.05em;}
+  .kpi.kflow .big{font-size:19px;}
+  .country-grid.ov{grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:6px;}
+  .country-grid.ov .cbtn{padding:6px 8px; font-size:11.5px;}
+  .funnel-card{padding:12px 12px;}
+  .chart-box.tall{height:340px;}
+  .toolbar{gap:8px;}
+  .toolbar input[type="search"]{width:100%;}
+  .tool-right{margin-left:0; width:100%; justify-content:space-between;}
+  .seg button{padding:6px 10px; font-size:12px;}
+  .dlbtn{padding:8px 11px; font-size:12px;}
+  table.tpose td.mlab{min-width:138px; font-size:11.5px;}
+  table.tpose th.ccol, table.tpose th.allcol{min-width:82px; font-size:11.5px;}
+  .rec-sum{grid-template-columns:repeat(2,1fr); gap:10px;}
+  .rec-sum .v{font-size:19px;}
+  .orbit{height:auto; padding:14px 12px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;}
+  .orbit svg.olines{display:none;}
+  .ochip{position:static !important; transform:none; animation:none;}
+  .ocenter{position:static; transform:none; order:99; width:100%; margin-top:10px; box-shadow:0 4px 14px rgba(47,85,217,.22), 0 0 0 1.5px #D3E0FB;}
+  .ocenter::after{display:none;}
+  .strat-steps{padding:13px 12px 11px;}
+  .step{padding:9px 11px;}
+  .step p{font-size:12.5px;}
+  .mchip{font-size:11.5px;}
+  .warm .n{font-size:20px;}
+  .lstep .n{font-size:19px;}
+  .map-legend .scale{width:100px;}
 }
 </style>
 </head>
@@ -787,7 +835,7 @@ function renderOverviewKpis() {
       <text x="${x + 35}" y="${y + 4.4}" fill="#33415E" font-weight="800" font-size="12.5">${txt}</text></g>`;
   };
   $("#ovFunnel").innerHTML = `
-  <svg viewBox="0 0 366 466" xmlns="http://www.w3.org/2000/svg" role="img"
+  <svg viewBox="0 0 366 352" xmlns="http://www.w3.org/2000/svg" role="img"
     aria-label="Funnel from spend to ROI" font-family="Archivo, system-ui, sans-serif">
     <defs>
       <linearGradient id="fgViolet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8E5CF0"/><stop offset="1" stop-color="#5B2FC0"/></linearGradient>
@@ -810,11 +858,6 @@ function renderOverviewKpis() {
     ${pill(148, 271, pctFund.toFixed(1) + "% put money in", "#1CBF83", 480)}
     ${seg(50, 35, 282, 60, "fgGreen", 330)}
     ${num(fmtN(t.funded), 317, 20, 380)}${cap("FUNDED", 334, 380)}
-    ${pill(130, 353, "net money in " + fmt$(t.nmi), "#0E1B3D", 620)}
-    ${seg(33, 15, 364, 56, "fgGold", 440)}
-    ${num(fmtP(t.roi), 396, 19, 500)}${cap("ROI", 412, 500)}
-    ${pill(112, 431, "$" + (t.spend_act ? (100 * t.nmi / t.spend_act).toFixed(2) : "0.00") + " back per $100 spent", "#0E1B3D", 760)}
-    <circle class="fdot" cx="${CX}" cy="452" r="7" fill="#0E1B3D"/>
   </svg>`;
 }
 /* the plan headline band, exactly the five numbers from the top of the budget Excel */
