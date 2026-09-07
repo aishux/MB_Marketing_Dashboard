@@ -553,14 +553,14 @@ tfoot td:first-child{text-align:left;}
 .aud2-hero{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;background:#fff;border-radius:20px;padding:34px 32px;box-shadow:0 8px 30px rgba(14,27,61,.08),inset 0 0 0 1px #EEF2F8;margin-bottom:18px;}
 @media(max-width:760px){.aud2-hero{grid-template-columns:1fr;gap:14px;text-align:center;}.aud2-arrow svg{transform:rotate(90deg);}}
 .aud2-claim{text-align:center;}
-.aud2-claim-lab{font-size:12.5px;font-weight:700;color:#B04141;margin-bottom:8px;}
-.aud2-claim-num{font-size:68px;font-weight:800;line-height:1;color:#D64545;letter-spacing:-.03em;position:relative;display:inline-block;}
-.aud2-claim-num::after{content:"";position:absolute;left:-6%;right:-6%;top:52%;height:5px;background:#D64545;border-radius:3px;transform:rotate(-9deg);}
+.aud2-claim-lab{font-size:12.5px;font-weight:700;color:#5A6880;margin-bottom:8px;}
+.aud2-claim-num{font-size:68px;font-weight:800;line-height:1;color:#0E1B3D;letter-spacing:-.03em;position:relative;display:inline-block;}
+.aud2-claim-num::after{content:"";position:absolute;left:-6%;right:-6%;top:52%;height:5px;background:#0E1B3D;border-radius:3px;transform:rotate(-9deg);}
 .aud2-claim-sub{font-size:13px;color:#8A96AC;margin-top:10px;font-weight:500;}
 .aud2-arrow{display:flex;flex-direction:column;align-items:center;gap:8px;}
 .aud2-stamp{font-size:10px;font-weight:800;letter-spacing:.12em;color:#0B915F;border:2px solid #0B915F;border-radius:6px;padding:3px 8px;transform:rotate(-6deg);}
 .aud2-real{text-align:center;}
-.aud2-real-lab{font-size:12.5px;font-weight:700;color:#0B7E52;margin-bottom:8px;}
+.aud2-real-lab{font-size:12.5px;font-weight:700;color:#0B915F;margin-bottom:8px;}
 .aud2-real-num{font-size:68px;font-weight:800;line-height:1;color:#0B915F;letter-spacing:-.03em;}
 .aud2-real-sub{font-size:13px;color:#8A96AC;margin-top:10px;font-weight:500;}
 .aud2-why{background:#FFF8EC;border-left:4px solid #E0A800;border-radius:0 12px 12px 0;padding:16px 20px;font-size:15px;line-height:1.55;color:#5A4420;margin-bottom:18px;}
@@ -569,17 +569,21 @@ tfoot td:first-child{text-align:left;}
 .aud2-receipt-h{font-size:14px;font-weight:700;color:#33415E;margin-bottom:14px;}
 .aud2-bar{display:flex;height:64px;border-radius:12px;overflow:hidden;}
 .aud2-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:0 8px;text-align:center;}
-.aud2-seg.new{background:linear-gradient(135deg,#3E9BD6,#48C6F0);}
-.aud2-seg.old{background:linear-gradient(135deg,#D64545,#E8740E);}
+.aud2-seg.new{background:linear-gradient(135deg,#3E6BF5,#55C3E9);}
+.aud2-seg.old{background:linear-gradient(135deg,#1E2E52,#33456F);}
 .aud2-seg-v{font-size:19px;font-weight:800;line-height:1.1;}
 .aud2-seg-l{font-size:11px;font-weight:600;opacity:.95;margin-top:3px;line-height:1.2;}
 .aud2-verdict{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 @media(max-width:600px){.aud2-verdict{grid-template-columns:1fr;}}
 .aud2-v-do,.aud2-v-dont{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 3px rgba(14,27,61,.07);}
 .aud2-v-do{box-shadow:0 1px 3px rgba(11,145,95,.14),inset 0 0 0 2px #CDEBD9;}
-.aud2-v-dont{box-shadow:0 1px 3px rgba(214,69,69,.12),inset 0 0 0 2px #F3D3D0;}
+.aud2-v-dont{box-shadow:0 1px 3px rgba(217,56,67,.12),inset 0 0 0 2px #F6D4D7;}
 .aud2-v-tag{font-size:12.5px;font-weight:800;margin-bottom:6px;}
 .aud2-v-big{font-size:18px;font-weight:800;color:#0E1B3D;}
+
+/* audit tab: enforce dashboard font everywhere */
+#tab-audit, #tab-audit *{font-family:'Archivo',system-ui,sans-serif;}
+.aud2-claim-num,.aud2-real-num,.aud2-seg-v,.aud2-v-big{font-variant-numeric:tabular-nums;font-feature-settings:"tnum";}
 </style>
 </head>
 <body>
@@ -877,7 +881,7 @@ tfoot td:first-child{text-align:left;}
           <div class="aud2-v-big">New Signups (Cohort)</div>
         </div>
         <div class="aud2-v-dont">
-          <div class="aud2-v-tag" style="color:#D64545">&#10007; Never set budgets from</div>
+          <div class="aud2-v-tag" style="color:#D93843">&#10007; Never set budgets from</div>
           <div class="aud2-v-big">All Activity (Non-Cohort)</div>
         </div>
       </div>
