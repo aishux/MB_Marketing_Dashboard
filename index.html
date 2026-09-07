@@ -491,6 +491,95 @@ tfoot td:first-child{text-align:left;}
 .calm:disabled{background:transparent;color:#C4CDDB;cursor:not-allowed;}
 .calhint{margin-top:11px;padding-top:9px;border-top:1px solid #EEF2F8;font-size:10.5px;color:#8A96AC;text-align:center;line-height:1.4;}
 .calhint b{color:#3E6BF5;}
+
+.tab-btn.ai-audit{background:linear-gradient(180deg,#FDF4D7,#FEFBF0);color:#A87908;border-radius:10px 10px 0 0;box-shadow:inset 0 0 0 1px #EFD79A;}
+.tab-btn.ai-audit:hover{color:#8A6206;background:linear-gradient(180deg,#FBEDBF,#FEF8E4);}
+.tab-btn.ai-audit.active{color:#B8860B;border-bottom-color:#E0A800;background:linear-gradient(180deg,#FBEDBF,#FEFBF0);}
+.audit-verdict{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,#FFF4E8,#FFF9F0);border:1.5px solid #F5D08A;border-radius:14px;padding:14px 18px;margin-bottom:14px;}
+.av-badge{font-size:30px;line-height:1;flex:none;}
+.av-title{font-size:15px;font-weight:800;color:#8A4B00;margin-bottom:4px;}
+.av-text{font-size:12.5px;color:#5A4420;line-height:1.45;}
+.audit-steps{display:flex;flex-direction:column;gap:16px;margin-bottom:22px;}
+.astep{display:flex;gap:16px;background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(14,27,61,.07),inset 0 0 0 1px #EEF2F8;padding:20px 22px;}
+.astep-n{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#D64545,#E8740E);color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;flex:none;}
+.astep-body{flex:1;min-width:0;}
+.astep-h{font-size:15.5px;font-weight:800;color:#0E1B3D;margin-bottom:14px;}
+.astep-note{font-size:12.5px;color:#5A6880;line-height:1.5;margin-top:12px;}
+/* gap bars */
+.gaprow{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.gaprow .lab{width:110px;font-size:12px;font-weight:700;color:#33415E;flex:none;}
+.gaprow .bar{height:30px;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding:0 10px;color:#fff;font-weight:800;font-size:12.5px;min-width:60px;transition:width .6s;}
+.gaprow .bar.coh{background:linear-gradient(90deg,#0B915F,#18A873);}
+.gaprow .bar.nc{background:linear-gradient(90deg,#D64545,#E8740E);}
+/* redep donut */
+.redep-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.redep-donut{width:150px;height:150px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;position:relative;}
+.redep-donut .hole{width:96px;height:96px;background:#fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.redep-donut .hole b{font-size:24px;font-weight:800;color:#D64545;}
+.redep-donut .hole span{font-size:10px;font-weight:700;color:#8A96AC;text-transform:uppercase;letter-spacing:.05em;}
+.redep-legend{display:flex;flex-direction:column;gap:10px;font-size:13px;}
+.redep-legend .li{display:flex;align-items:center;gap:9px;}
+.redep-legend .dot{width:12px;height:12px;border-radius:3px;flex:none;}
+.redep-legend b{font-variant-numeric:tabular-nums;}
+/* IB bars */
+.ibrow{margin-bottom:14px;}
+.ibrow .top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:5px;}
+.ibrow .track{height:26px;border-radius:8px;background:#F1F4FA;overflow:hidden;}
+.ibrow .fill{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:10px;color:#fff;font-weight:800;font-size:12px;transition:width .6s;}
+.audit-rec{display:flex;gap:16px;align-items:flex-start;background:linear-gradient(135deg,#EEF3FF,#F7FAFF);border-radius:14px;padding:16px 22px;margin-bottom:8px;box-shadow:0 4px 14px rgba(47,85,217,.10),inset 0 0 0 1.5px #C9DBFB;}
+.ar-icon{font-size:26px;line-height:1;flex:none;}
+.ar-body{flex:1;}
+.ar-h{font-size:12px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
+.ar-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:900px){.ar-split{grid-template-columns:1fr;}}
+.ar-do,.ar-dont{background:#fff;border-radius:10px;padding:11px 14px;font-size:12.5px;font-weight:600;color:#1F3560;line-height:1.4;box-shadow:0 1px 4px rgba(14,27,61,.06);}
+.ar-do{box-shadow:0 1px 4px rgba(11,145,95,.12),inset 0 0 0 1.5px #CDEBD9;}
+.ar-dont{box-shadow:0 1px 4px rgba(214,69,69,.10),inset 0 0 0 1.5px #F3D3D0;}
+.ar-tag{display:block;font-size:10.5px;font-weight:800;letter-spacing:.05em;margin-bottom:6px;}
+.ar-tag.do{color:#0B915F;}
+.ar-tag.dont{color:#D64545;}
+
+.audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:900px){.audit-grid{grid-template-columns:1fr;}}
+.acard{padding:16px 20px;display:flex;flex-direction:column;}
+.ac-kicker{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;}
+.ac-h{font-size:15.5px;font-weight:800;color:#0E1B3D;margin-bottom:10px;}
+.ac-viz{flex:1;display:flex;align-items:center;justify-content:center;min-height:150px;}
+.ac-note{font-size:12px;color:#5A6880;line-height:1.45;margin-top:12px;}
+
+/* ===== AI Data Integrity Check v2 ===== */
+.aud2{max-width:920px;margin:0 auto;}
+.aud2-eyebrow{font-size:12px;font-weight:700;color:#A87908;margin-bottom:18px;letter-spacing:.02em;}
+.aud2-hero{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;background:#fff;border-radius:20px;padding:34px 32px;box-shadow:0 8px 30px rgba(14,27,61,.08),inset 0 0 0 1px #EEF2F8;margin-bottom:18px;}
+@media(max-width:760px){.aud2-hero{grid-template-columns:1fr;gap:14px;text-align:center;}.aud2-arrow svg{transform:rotate(90deg);}}
+.aud2-claim{text-align:center;}
+.aud2-claim-lab{font-size:12.5px;font-weight:700;color:#B04141;margin-bottom:8px;}
+.aud2-claim-num{font-size:68px;font-weight:800;line-height:1;color:#D64545;letter-spacing:-.03em;position:relative;display:inline-block;}
+.aud2-claim-num::after{content:"";position:absolute;left:-6%;right:-6%;top:52%;height:5px;background:#D64545;border-radius:3px;transform:rotate(-9deg);}
+.aud2-claim-sub{font-size:13px;color:#8A96AC;margin-top:10px;font-weight:500;}
+.aud2-arrow{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.aud2-stamp{font-size:10px;font-weight:800;letter-spacing:.12em;color:#0B915F;border:2px solid #0B915F;border-radius:6px;padding:3px 8px;transform:rotate(-6deg);}
+.aud2-real{text-align:center;}
+.aud2-real-lab{font-size:12.5px;font-weight:700;color:#0B7E52;margin-bottom:8px;}
+.aud2-real-num{font-size:68px;font-weight:800;line-height:1;color:#0B915F;letter-spacing:-.03em;}
+.aud2-real-sub{font-size:13px;color:#8A96AC;margin-top:10px;font-weight:500;}
+.aud2-why{background:#FFF8EC;border-left:4px solid #E0A800;border-radius:0 12px 12px 0;padding:16px 20px;font-size:15px;line-height:1.55;color:#5A4420;margin-bottom:18px;}
+.aud2-why b{color:#8A4B00;}
+.aud2-receipt{background:#fff;border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(14,27,61,.07),inset 0 0 0 1px #EEF2F8;margin-bottom:18px;}
+.aud2-receipt-h{font-size:14px;font-weight:700;color:#33415E;margin-bottom:14px;}
+.aud2-bar{display:flex;height:64px;border-radius:12px;overflow:hidden;}
+.aud2-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:0 8px;text-align:center;}
+.aud2-seg.new{background:linear-gradient(135deg,#3E9BD6,#48C6F0);}
+.aud2-seg.old{background:linear-gradient(135deg,#D64545,#E8740E);}
+.aud2-seg-v{font-size:19px;font-weight:800;line-height:1.1;}
+.aud2-seg-l{font-size:11px;font-weight:600;opacity:.95;margin-top:3px;line-height:1.2;}
+.aud2-verdict{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.aud2-verdict{grid-template-columns:1fr;}}
+.aud2-v-do,.aud2-v-dont{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 3px rgba(14,27,61,.07);}
+.aud2-v-do{box-shadow:0 1px 3px rgba(11,145,95,.14),inset 0 0 0 2px #CDEBD9;}
+.aud2-v-dont{box-shadow:0 1px 3px rgba(214,69,69,.12),inset 0 0 0 2px #F3D3D0;}
+.aud2-v-tag{font-size:12.5px;font-weight:800;margin-bottom:6px;}
+.aud2-v-big{font-size:18px;font-weight:800;color:#0E1B3D;}
 </style>
 </head>
 <body>
@@ -521,6 +610,7 @@ tfoot td:first-child{text-align:left;}
       <button class="tab-btn" data-tab="country">By Country</button>
       <button class="tab-btn ai" data-tab="recs">AI Recommended - Budget Allocations</button>
       <button class="tab-btn rd" data-tab="strategy">AI Suggested Strategies</button>
+      <button class="tab-btn ai-audit" data-tab="audit" id="auditTabBtn">AI Data Integrity Check</button>
     </nav>
   </div>
 </div>
@@ -743,6 +833,57 @@ tfoot td:first-child{text-align:left;}
 
     </div>
   </div>
+  <!-- ================= AI DATA INTEGRITY CHECK ================= -->
+  <div class="tab-panel" id="tab-audit">
+    <div class="section aud2">
+      <div class="aud2-eyebrow">AI Data Integrity Check &middot; live from Power BI</div>
+
+      <!-- THE HERO: the number correction -->
+      <div class="aud2-hero">
+        <div class="aud2-claim">
+          <div class="aud2-claim-lab">Non-Cohort return on ad spend</div>
+          <div class="aud2-claim-num" id="aud2Fake">469%</div>
+          <div class="aud2-claim-sub">ROI = Net Money In &divide; <span id="aud2Spend">$441,558</span> spent</div>
+        </div>
+        <div class="aud2-arrow">
+          <div class="aud2-stamp">REALITY</div>
+          <svg viewBox="0 0 60 24" width="60" height="24"><path d="M2 12h50m0 0l-9-8m9 8l-9 8" fill="none" stroke="#0B915F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="aud2-real">
+          <div class="aud2-real-lab">Real return, new clients only</div>
+          <div class="aud2-real-num" id="aud2Real">10%</div>
+          <div class="aud2-real-sub">ROI = Net Money In &divide; same spend, new clients only</div>
+        </div>
+      </div>
+
+      <!-- THE ONE-LINE WHY -->
+      <div class="aud2-why">
+        <b id="aud2Pct">95%</b> of the reported deposits are <b>re-deposits from clients acquired months or years ago</b>, often through partners, not this month&#39;s ads. That money is real, but it is not marketing&#39;s result.
+      </div>
+
+      <!-- THE RECEIPT: where the money splits -->
+      <div class="aud2-receipt">
+        <div class="aud2-receipt-h">The $<span id="aud2NcDep">2.07M</span> the report credits to this month</div>
+        <div class="aud2-bar">
+          <div class="aud2-seg new" id="aud2SegNew"><span class="aud2-seg-v" id="aud2NewV">$106K</span><span class="aud2-seg-l">actually new</span></div>
+          <div class="aud2-seg old" id="aud2SegOld"><span class="aud2-seg-v" id="aud2OldV">$1.97M</span><span class="aud2-seg-l">old money, not from this month&#39;s ads</span></div>
+        </div>
+      </div>
+
+      <!-- THE VERDICT -->
+      <div class="aud2-verdict">
+        <div class="aud2-v-do">
+          <div class="aud2-v-tag" style="color:#0B915F">&#10003; Judge marketing with</div>
+          <div class="aud2-v-big">New Signups (Cohort)</div>
+        </div>
+        <div class="aud2-v-dont">
+          <div class="aud2-v-tag" style="color:#D64545">&#10007; Never set budgets from</div>
+          <div class="aud2-v-big">All Activity (Non-Cohort)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </div>
 
@@ -1104,11 +1245,35 @@ function renderCharts() {
 
   const splitP = OV.country === "all" ? TOT.ppc.spend_act : DATA.ppc.find(r => r.country === OV.country).spend_act;
   const splitS = OV.country === "all" ? TOT.social.spend_act : (DATA.social.find(r => r.country === OV.country)||{spend_act:0}).spend_act;
+  const donutLabels = {
+    id: "donutLabels",
+    afterDatasetsDraw(chart){
+      const {ctx}=chart; const meta=chart.getDatasetMeta(0);
+      const tot=splitP+splitS;
+      ctx.save();
+      meta.data.forEach((arc,idx)=>{
+        const v=chart.data.datasets[0].data[idx]; if(!v)return;
+        const p=arc.tooltipPosition();
+        ctx.font="800 12px Archivo, system-ui, sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+        ctx.lineWidth=3; ctx.strokeStyle="rgba(255,255,255,.9)";
+        const label=(tot?Math.round(100*v/tot):0)+"%";
+        ctx.strokeText(label,p.x,p.y); ctx.fillStyle="#fff"; ctx.fillText(label,p.x,p.y);
+      });
+      // center total
+      const cx=(chart.chartArea.left+chart.chartArea.right)/2, cy=(chart.chartArea.top+chart.chartArea.bottom)/2;
+      ctx.font="800 15px Archivo, system-ui, sans-serif"; ctx.fillStyle="#0E1B3D"; ctx.textAlign="center"; ctx.textBaseline="middle";
+      ctx.fillText(fmt$(tot), cx, cy-8);
+      ctx.font="700 9px Archivo, system-ui, sans-serif"; ctx.fillStyle="#8A96AC";
+      ctx.fillText("TOTAL SPEND", cx, cy+9);
+      ctx.restore();
+    }
+  };
   chSplit = new Chart($("#chSplit"), {
     type: "doughnut",
     data: {labels: ["PPC", "Paid Social"],
       datasets: [{data: [splitP, splitS],
         backgroundColor: ["#3E6BF5", "#7A4ED9"], borderWidth: 3, borderColor: "#fff", hoverOffset: 6}]},
+    plugins: [donutLabels],
     options: {maintainAspectRatio: false, cutout: "62%", animation: reduced ? false : {duration: 600},
       plugins: {legend: {position: "bottom", labels: {boxWidth: 14, boxHeight: 14, borderRadius: 4, useBorderRadius: true}},
         tooltip: {callbacks: {label: c => c.label + ": " + fmt$(c.parsed) +
@@ -1601,6 +1766,37 @@ $("#testMarkets").innerHTML = top5.map(r =>
   $("#moveAmt").textContent = fmt$(dec - inc);
 })();
 
+
+
+/* ---------- AI Data Integrity Check tab ---------- */
+(function auditTab(){
+  const btn=document.getElementById('auditTabBtn');
+  if(btn) btn.style.display = (MODE==='NonCohort') ? '' : 'none';
+  if(MODE!=='NonCohort') return;
+  const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
+  const m=DATA_ALL.modes['NonCohort'][MONTH]; const p=m.ppc_tot, s=m.soc_tot;
+  const mc=DATA_ALL.modes['Cohort'][MONTH]; const pc=mc.ppc_tot, sc=mc.soc_tot;
+  const ftd=(p.ftd||0)+(s.ftd||0), redep=(p.redeposit||0)+(s.redeposit||0);
+  const ncDep=(p.deposits||0)+(s.deposits||0);
+  const ncNmi=(p.nmi||0)+(s.nmi||0), cohNmi=(pc.nmi||0)+(sc.nmi||0);
+  const spend=(p.spend_act||0)+(s.spend_act||0);
+  const fakeROI=spend?Math.round(100*ncNmi/spend):0;   // honest: NMI / spend
+  const realROI=spend?Math.round(100*cohNmi/spend):0;
+  const oldPct=ncDep?Math.round(100*redep/ncDep):0;
+  const M=v=>{const a=Math.abs(v); const sign=v<0?'-':''; if(a>=1e6)return sign+'$'+(a/1e6).toFixed(2)+'M'; if(a>=1e3)return sign+'$'+Math.round(a/1e3)+'K'; return sign+'$'+Math.round(a);};
+  const full=v=>'$'+Math.round(v).toLocaleString();
+  set('aud2Fake',fakeROI+'%');
+  set('aud2Real',realROI+'%');
+  set('aud2Spend',full(spend));
+  set('aud2Pct',oldPct+'%');
+  set('aud2NcDep',M(ncDep).replace('$',''));
+  set('aud2NewV',M(ftd));
+  set('aud2OldV',M(redep));
+  const newW=Math.max(ncDep?100*ftd/ncDep:0, 14);
+  const segNew=document.getElementById('aud2SegNew'), segOld=document.getElementById('aud2SegOld');
+  if(segNew) segNew.style.width=newW+'%';
+  if(segOld) segOld.style.width=(100-newW)+'%';
+})();
 
 (function(){
   const ms=document.getElementById('modeSeg'),ibs=document.getElementById('ibSeg'),ibg=document.getElementById('ibGrp');
