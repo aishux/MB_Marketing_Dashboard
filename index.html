@@ -836,6 +836,53 @@ tfoot td:first-child{text-align:left;}
 .score-sort{background:#EDF1F8;border-radius:9px;padding:3px;gap:2px;display:inline-flex;}
 .score-sort button{border:none;background:none;font:inherit;font-weight:700;font-size:11.5px;color:#5A6880;padding:6px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;}
 .score-sort button.on{background:#fff;color:#0E1B3D;box-shadow:0 1px 2px rgba(14,27,61,.12);}
+
+/* ===== Chairman's View ===== */
+.chair{max-width:1080px;margin:0 auto;}
+.chair-eyebrow{font-size:12px;font-weight:700;color:#2451C9;margin-bottom:20px;}
+.chair-act{margin-bottom:30px;}
+.chair-h{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.chair-n{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2451C9,#3E6BF5);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex:none;}
+.chair-h h3{font-size:18px;font-weight:800;color:#0E1B3D;margin-bottom:2px;}
+.chair-h p{font-size:13px;color:#5A6880;margin:0;line-height:1.5;}
+.chair-controls{margin:0 0 12px 40px;}
+.chair-controls .seg{display:inline-flex;background:#EDF1F8;border-radius:9px;padding:3px;gap:2px;flex-wrap:wrap;}
+.chair-controls .seg button{border:none;background:none;font:inherit;font-weight:700;font-size:11.5px;color:#5A6880;padding:6px 12px;border-radius:7px;cursor:pointer;}
+.chair-controls .seg button.on{background:#fff;color:#0E1B3D;box-shadow:0 1px 2px rgba(14,27,61,.12);}
+#chairMatrix table{font-size:12px;}
+#chairMatrix .mlab{position:sticky;left:0;background:#fff;font-weight:700;white-space:nowrap;}
+#chairMatrix th.ccol{text-align:right;white-space:nowrap;min-width:74px;}
+#chairMatrix .grp td{background:#EDF2FA;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#33415E;padding:6px 10px;}
+.chair-channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-left:40px;}
+.chair-chan{border-radius:14px;padding:16px 18px;background:#fff;box-shadow:0 1px 3px rgba(14,27,61,.07),inset 0 0 0 1px #EEF2F8;}
+.chair-chan.off{background:#FAFBFD;opacity:.92;}
+.chair-chan .cc-nm{font-size:14px;font-weight:800;color:#0E1B3D;margin-bottom:8px;}
+.chair-chan .cc-pill{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;display:inline-block;}
+.chair-chan .cc-pill.on{background:#E4F5EE;color:#0B915F;}
+.chair-chan .cc-pill.off{background:#FCE9EA;color:#D93843;}
+.chair-chan .cc-val{font-size:20px;font-weight:800;color:#0E1B3D;margin-top:10px;font-variant-numeric:tabular-nums;}
+.chair-chan .cc-sub{font-size:11px;color:#8A96AC;font-weight:600;}
+.chair-reco{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-left:40px;}
+@media(max-width:760px){.chair-reco{grid-template-columns:1fr;}.chair-channels,.chair-controls,.chair-reco,.chair-probs{margin-left:0;}}
+.chair-reco-col{border-radius:14px;padding:16px 18px;}
+.chair-reco-col.stop{background:#FDF0EC;box-shadow:inset 0 0 0 1.5px #F3D3C8;}
+.chair-reco-col.grow{background:#EDF9F3;box-shadow:inset 0 0 0 1.5px #CDEBD9;}
+.crc-h{font-size:13px;font-weight:800;margin-bottom:12px;}
+.chair-reco-col.stop .crc-h{color:#D93843;}
+.chair-reco-col.grow .crc-h{color:#0B915F;}
+.crrow{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px dashed rgba(0,0,0,.06);}
+.crrow:last-child{border-bottom:none;}
+.crrow .cr-nm{flex:1;font-size:13px;font-weight:700;color:#0E1B3D;}
+.crrow .cr-ch{font-size:10px;font-weight:700;color:#8A96AC;background:#fff;padding:2px 7px;border-radius:999px;}
+.crrow .cr-v{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;}
+.chair-probs{display:flex;flex-direction:column;gap:12px;margin-left:40px;}
+.chair-prob{display:flex;gap:14px;background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(14,27,61,.07),inset 0 0 0 1px #EEF2F8;}
+.chair-prob.hot{box-shadow:0 1px 3px rgba(217,56,67,.1),inset 0 0 0 1.5px #F3D3D0;background:linear-gradient(135deg,#FEF6F4,#fff);}
+.cp-rank{width:30px;height:30px;border-radius:50%;background:#EEF3FB;color:#2451C9;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex:none;}
+.chair-prob.hot .cp-rank{background:#FCE9EA;color:#D93843;}
+.cp-body b{font-size:14.5px;font-weight:800;color:#0E1B3D;display:block;margin-bottom:3px;}
+.cp-body p{font-size:12.5px;color:#5A6880;margin:0;line-height:1.5;}
+.cp-body span{font-weight:800;color:#0E1B3D;}
 </style>
 </head>
 <body>
@@ -869,6 +916,7 @@ tfoot td:first-child{text-align:left;}
       <button class="tab-btn" data-tab="social">Paid Social</button>
       <button class="tab-btn" data-tab="country">By Country</button>
       <button class="tab-btn" data-tab="campaign">By Campaign</button>
+      <button class="tab-btn ai-audit" data-tab="chairman" id="chairTabBtn" style="background:linear-gradient(180deg,#EAF0FE,#F5F9FF);color:#2451C9;box-shadow:inset 0 0 0 1px #C9DBFB;">Chairman&#39;s View</button>
       <button class="tab-btn ai" data-tab="recs">AI Recommended - Budget Allocations</button>
       <button class="tab-btn rd" data-tab="strategy">AI Suggested Strategies</button>
       <button class="tab-btn ai-audit" data-tab="audit" id="auditTabBtn">AI Data Integrity Check</button>
@@ -1019,6 +1067,55 @@ tfoot td:first-child{text-align:left;}
       </div>
     </div>
   </div>
+  <!-- ================= CHAIRMAN'S VIEW ================= -->
+  <div class="tab-panel" id="tab-chairman">
+    <div class="section chair">
+      <div class="chair-eyebrow">Chairman&#39;s View &middot; answering the brief with real data from Power BI</div>
+
+      <!-- Q1: matrix, countries across, metrics down -->
+      <div class="chair-act">
+        <div class="chair-h"><span class="chair-n">1</span><div><h3>Every country, every metric, plan vs actual</h3><p>Countries across the top, metrics down the side. Each shows expected, actual and the gap &mdash; per channel.</p></div></div>
+        <div class="chair-controls">
+          <span class="seg" id="chairChan"></span>
+        </div>
+        <div class="table-wrap" id="chairMatrix"></div>
+      </div>
+
+      <!-- Q4: the 6 marketing avenues -->
+      <div class="chair-act">
+        <div class="chair-h"><span class="chair-n">2</span><div><h3>All six marketing avenues</h3><p>The chairman asked for six channels. Two are running; four have never been switched on.</p></div></div>
+        <div class="chair-channels" id="chairChannels"></div>
+      </div>
+
+      <!-- Q5: daily -->
+      <div class="chair-act">
+        <div class="chair-h"><span class="chair-n">3</span><div><h3>Daily performance</h3><p>Spend and funded accounts, day by day. Pulled live from Power BI (August shown).</p></div></div>
+        <div class="card chart-card"><div class="chart-box" id="chairDailyBox"><canvas id="chairDaily"></canvas></div></div>
+      </div>
+
+      <!-- Q6: recommendations stop/grow -->
+      <div class="chair-act">
+        <div class="chair-h"><span class="chair-n">4</span><div><h3>Where to stop, where to grow</h3><p>Based on ROI and account-to-funded conversion. Cut the losers, move the money to the winners.</p></div></div>
+        <div class="chair-reco">
+          <div class="chair-reco-col stop"><div class="crc-h">&#9660; Stop / cut these</div><div id="chairStop"></div></div>
+          <div class="chair-reco-col grow"><div class="crc-h">&#9650; Grow these</div><div id="chairGrow"></div></div>
+        </div>
+      </div>
+
+      <!-- Q7: the 3 marketing problems -->
+      <div class="chair-act">
+        <div class="chair-h"><span class="chair-n">5</span><div><h3>Three problems holding marketing back</h3><p>The chairman&#39;s stated priorities, with what the data says about each.</p></div></div>
+        <div class="chair-probs">
+          <div class="chair-prob"><div class="cp-rank">1</div><div class="cp-body"><b>We are not finding our custom-intent audience</b><p>Leads convert to funded at just <span id="cpConv"></span>. A sharper audience is the fastest fix, and the highest-leverage place AI can help.</p></div></div>
+          <div class="chair-prob hot"><div class="cp-rank">2</div><div class="cp-body"><b>We are not targeting competitors&#39; clients</b><p>Every rival runs conquesting campaigns; we run none. This is the single biggest gap. See the AI Suggested Strategies tab for the plan.</p></div></div>
+          <div class="chair-prob"><div class="cp-rank">3</div><div class="cp-body"><b>We are not using the best tools per channel</b><p>No dedicated stack (e.g. HubSpot) for PPC, targeting, remarketing and social. Right tool per avenue would lift efficiency across the board.</p></div></div>
+        </div>
+      </div>
+
+      <p class="footer-note">Matrix, channels, daily trend and recommendations are live from Power BI (Daily MW Report). Daily feed shown for August; wiring it to refresh continuously on Claude Marketing is the remaining infrastructure step.</p>
+    </div>
+  </div>
+
 
 
   <!-- ================= RECOMMENDATIONS ================= -->
@@ -1189,6 +1286,7 @@ let MODE='Cohort', MONTH='Aug';
 let IBSET=['ib','ic'];
 try{const hp=new URLSearchParams(location.hash.slice(1));if(hp.get('mode'))MODE=hp.get('mode');if(hp.get('mo'))MONTH=hp.get('mo');if(hp.get('ib'))IBSET=hp.get('ib').split(',').filter(Boolean);}catch(e){}
 const PLAN=DATA_ALL.plan_fixed;
+const DAILY={"Aug": [[1, 7083, 21, 1, 7083, 69, 1], [2, 7748, 18, 0, 7748, 98, 1], [3, 8856, 26, 1, 8856, 77, 1], [4, 7058, 17, 4, 7058, 50, 0], [5, 7495, 19, 1, 7495, 57, 0], [6, 7406, 11, 1, 7406, 66, 1], [7, 7968, 11, 0, 7968, 71, 1], [8, 7670, 12, 2, 7670, 67, 0], [9, 8796, 10, 0, 8796, 59, 1], [10, 8429, 17, 1, 8429, 94, 1], [11, 9437, 23, 0, 9437, 101, 0], [12, 10361, 16, 0, 10361, 61, 1], [13, 9579, 16, 1, 9579, 60, 1], [14, 6425, 14, 0, 6425, 47, 2], [15, 1603, 11, 0, 1603, 2, 0], [16, 2710, 17, 0, 2710, 0, 0], [17, 3787, 14, 0, 3787, 13, 2], [18, 15981, 72, 1, 15981, 71, 0], [19, 19369, 102, 2, 19369, 113, 2], [20, 23422, 170, 1, 23422, 123, 0], [21, 24267, 172, 1, 24267, 150, 0], [22, 23806, 171, 1, 23806, 209, 0], [23, 25856, 185, 3, 25856, 239, 2], [24, 26868, 185, 2, 26868, 177, 0], [25, 27673, 187, 2, 27673, 199, 0], [26, 28354, 179, 1, 28354, 190, 0], [27, 30053, 115, 1, 30053, 189, 0], [28, 27453, 135, 0, 27453, 212, 0], [29, 25795, 126, 1, 25795, 175, 0], [30, 29826, 130, 1, 29826, 200, 0], [31, 26837, 94, 0, 26837, 171, 4]]};
 const CAMP={"Cohort": {"Aug": {"Generic": [167897.71, 1843, 13, 2895.85, -815.33], "Gold": [77284.93, 1436, 10, 5025.41, -185.99], "Bonus": [52346.67, 1090, 12, 14009.44, -8103.5], "Stocks": [27388.48, 690, 1, 99.95, 0], "Competitor": [66789.28, 395, 13, 9242.64, -2375.54], "Oil": [2118.02, 154, 0, 0, 0], "Brand": [34693.9, 101, 16, 12818.69, -1607.0], "USPs": [6467.9, 55, 1, 231.78, 0], "Others": [566.6, 30, 2, 233.42, 0], "Remarketing": [3102.15, 25, 1, 2897.83, -3224.0], "IB": [4432.53, 22, 0, 0, 0], "Copy Trading": [2139.1, 17, 0, 0, 0]}, "Sep": {"Generic": [78410.63, 521, 6, 911.0, 0], "Stocks": [19598.29, 462, 1, 50.0, -18.27], "Gold": [26916.97, 397, 4, 2408.09, -50.0], "Bonus": [14179.82, 298, 3, 8132.84, -6693.61], "Competitor": [13642.69, 70, 2, 122.03, 0], "USPs": [9097.44, 68, 0, 0, 0], "Brand": [7268.3, 22, 2, 861.94, 0], "Copy Trading": [2351.71, 15, 0, 0, 0], "Forex": [325.23, 6, 0, 0, 0], "Others": [214.66, 5, 0, 0, 0]}}, "NonCohort": {"Aug": {"Others": [197991.89, 2592, 18, 3379.22, -815.33, 1884.05, 481.64], "Gold": [77284.93, 1436, 10, 5025.41, -185.99, 1005.12, 1684.27], "Bonus": [52346.67, 1092, 12, 14009.44, -8103.5, 1960.58, 8556.03], "Competitor": [66789.28, 396, 14, 11243.93, -2375.54, 8298.16, 120.2], "Oil": [2118.02, 161, 3, 3850.97, -3369.0, 2600.98, 1249.99], "Brand": [34693.9, 109, 16, 12818.69, -1607.0, 1193.45, 11041.73], "USPs": [6467.9, 55, 1, 231.78, 0, 0, 0], "Remarketing": [3102.15, 26, 1, 2897.83, -3224.0, 0, 2897.83], "IB": [4432.53, 24, 2, 3840.0, 0, 2250.0, 0]}, "Sep": {"Others": [100900.52, 1009, 7, 961.0, -18.27, 615.97, 345.03], "Gold": [26916.97, 397, 4, 2408.09, -50.0, 2227.28, 180.81], "Bonus": [14179.82, 302, 4, 8232.84, -6693.61, 8232.84, 0], "Competitor": [13642.69, 70, 2, 122.03, 0, 122.03, 0], "USPs": [9097.44, 68, 0, 0, 0, 0, 0], "Brand": [7268.3, 23, 2, 861.94, 0, 718.54, 143.4], "Remarketing": [0, 1, 0, 0, 0, 0, 0]}}};
 const DATA = {iso:DATA_ALL.iso, countries:DATA_ALL.countries, period:DATA_ALL.months.Aug};
 function applySlice(){const m=DATA_ALL.modes[MODE][MONTH];
@@ -2207,6 +2305,106 @@ let campC3;
     [...sortEl.children].forEach(x=>x.classList.toggle('on',x===b));
     scoreSort=b.dataset.s; drawScore();
   });
+})();
+
+
+/* ---------- Chairman's View ---------- */
+(function chairView(){
+  const btn=document.getElementById('chairTabBtn');
+  if(!document.getElementById('chairMatrix')) return;
+  const money=v=>'$'+Math.round(v).toLocaleString();
+  const pct=v=>v.toFixed(1)+'%';
+  const isNC=MODE==='NonCohort';
+  const m=DATA_ALL.modes[MODE][MONTH];
+
+  // Q1 MATRIX: countries across top, metrics down side, per channel
+  let chan='ppc';
+  const chanSeg=document.getElementById('chairChan');
+  chanSeg.innerHTML='<button data-c="ppc" class="on">PPC</button><button data-c="social">Instagram + Facebook</button><button data-c="all">All channels</button>';
+  function rowsFor(ch){
+    if(ch==='ppc') return m.ppc;
+    if(ch==='social') return m.social;
+    // combined
+    const by={};
+    [...m.ppc,...m.social].forEach(r=>{if(!by[r.country])by[r.country]={...r};else{['spend_act','leads_act','funded','deposits','withdrawals','nmi','live'].forEach(k=>by[r.country][k]=(by[r.country][k]||0)+(r[k]||0));}});
+    return Object.values(by);
+  }
+  function drawMatrix(){
+    const rows=rowsFor(chan).slice().sort((a,b)=>b.spend_act-a.spend_act).slice(0,14);
+    const metrics=[
+      ['Spend',r=>money(r.spend_act),r=>r.spend_exp,true],
+      ['Leads',r=>Math.round(r.leads_act).toLocaleString(),r=>r.leads_exp,true],
+      ['Funded',r=>r.funded,null,false],
+      ['Acct \u2192 Funded %',r=>r.live?pct(100*r.funded/r.live):'\u2013',null,false],
+      ['ROI %',r=>pct(r.roi),null,false],
+      ['Net money in',r=>money(r.nmi),null,false],
+    ];
+    let head='<tr><th class="mlab" style="text-align:left">Metric</th>'+rows.map(r=>'<th class="ccol">'+r.country+'</th>').join('')+'</tr>';
+    let body=metrics.map(mt=>{
+      return '<tr><td class="mlab">'+mt[0]+'</td>'+rows.map(r=>{
+        let cell=mt[1](r);
+        if(mt[3] && mt[2]){ // has expected -> show diff
+          const exp=mt[2](r); const act=(mt[0]==='Spend')?r.spend_act:r.leads_act;
+          const diff=act-exp;
+          const col=diff>=0?'#0B915F':'#D93843';
+          cell+='<div style="font-size:10px;color:'+col+';font-weight:700">'+(diff>=0?'+':'')+(mt[0]==='Spend'?money(diff):Math.round(diff).toLocaleString())+'</div>';
+        }
+        return '<td class="num">'+cell+'</td>';
+      }).join('')+'</tr>';
+    }).join('');
+    document.getElementById('chairMatrix').innerHTML='<table class="tpose">'+
+      '<thead>'+head+'</thead><tbody>'+
+      '<tr class="grp"><td colspan="'+(rows.length+1)+'">Plan vs actual &middot; top 14 countries by spend</td></tr>'+
+      body+'</tbody></table>';
+  }
+  drawMatrix();
+  chanSeg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;[...chanSeg.children].forEach(x=>x.classList.toggle('on',x===b));chan=b.dataset.c;drawMatrix();});
+
+  // Q4 CHANNELS
+  const pT=m.ppc_tot, sT=m.soc_tot;
+  const channels=[
+    ['PPC',true,pT.spend_act,pT.funded],
+    ['Instagram + Facebook',true,sT.spend_act,sT.funded],
+    ['TikTok',false,0,0],['YouTube',false,0,0],['LinkedIn + Snapchat',false,0,0],['Programmatic',false,0,0],
+  ];
+  document.getElementById('chairChannels').innerHTML=channels.map(c=>
+    '<div class="chair-chan'+(c[1]?'':' off')+'"><div class="cc-nm">'+c[0]+'</div>'+
+    '<span class="cc-pill '+(c[1]?'on':'off')+'">'+(c[1]?'Running':'Not used')+'</span>'+
+    (c[1]?'<div class="cc-val">'+money(c[2])+'</div><div class="cc-sub">'+c[3]+' funded this month</div>':'<div class="cc-val" style="color:#C4CDDB">\u2014</div><div class="cc-sub">never switched on</div>')+
+    '</div>').join('');
+
+  // Q5 DAILY chart
+  if(window.Chart && DAILY && DAILY.Aug){
+    const d=DAILY.Aug;
+    new Chart(document.getElementById('chairDaily'),{
+      data:{labels:d.map(r=>'Aug '+r[0]),datasets:[
+        {type:'bar',label:'PPC spend',data:d.map(r=>r[1]),backgroundColor:'#3E6BF5',stack:'s',borderRadius:3,barPercentage:.8},
+        {type:'bar',label:'Social spend',data:d.map(r=>r[4]),backgroundColor:'#7A4ED9',stack:'s',borderRadius:3,barPercentage:.8},
+        {type:'line',label:'Funded (both)',data:d.map(r=>r[3]+r[6]),borderColor:'#0B915F',backgroundColor:'#0B915F',borderWidth:2.5,tension:.35,pointRadius:0,yAxisID:'y1'}
+      ]},
+      options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+        plugins:{legend:{position:'bottom',labels:{boxWidth:12,boxHeight:12,borderRadius:3,useBorderRadius:true,font:{size:11,weight:600}}}},
+        scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+          y:{stacked:true,grid:{color:'#EDF1F8'},ticks:{callback:v=>'$'+(v/1000)+'k',font:{size:10}},title:{display:true,text:'Daily spend',font:{size:10,weight:700},color:'#8A96AC'}},
+          y1:{position:'right',grid:{display:false},ticks:{precision:0,font:{size:10}},title:{display:true,text:'Funded',font:{size:10,weight:700},color:'#8A96AC'}}},
+        animation:reduced?false:{duration:600}}});
+  }
+
+  // Q6 STOP / GROW (per country per channel)
+  const all=[];
+  m.ppc.forEach(r=>all.push({...r,ch:'PPC'}));
+  m.social.forEach(r=>all.push({...r,ch:'Social'}));
+  const stop=all.filter(r=>r.spend_act>=2000 && r.funded===0).sort((a,b)=>b.spend_act-a.spend_act).slice(0,6);
+  const grow=all.filter(r=>r.funded>0 && r.roi>=15).sort((a,b)=>b.roi-a.roi).slice(0,6);
+  document.getElementById('chairStop').innerHTML=stop.map(r=>
+    '<div class="crrow"><span class="cr-nm">'+r.country+'</span><span class="cr-ch">'+r.ch+'</span><span class="cr-v" style="color:#D93843">'+money(r.spend_act)+' \u2192 0 funded</span></div>').join('')||'<div style="font-size:12px;color:#8A96AC">Nothing flagged to stop.</div>';
+  document.getElementById('chairGrow').innerHTML=grow.map(r=>
+    '<div class="crrow"><span class="cr-nm">'+r.country+'</span><span class="cr-ch">'+r.ch+'</span><span class="cr-v" style="color:#0B915F">'+pct(r.roi)+' ROI</span></div>').join('')||'<div style="font-size:12px;color:#8A96AC">No standout winners yet.</div>';
+
+  // Q7 conversion figure
+  const totLive=m.ppc_tot.live+m.soc_tot.live, totFund=m.ppc_tot.funded+m.soc_tot.funded;
+  const conv=totLive?100*totFund/totLive:0;
+  const el=document.getElementById('cpConv'); if(el) el.textContent=conv.toFixed(1)+'%';
 })();
 
 (function(){
