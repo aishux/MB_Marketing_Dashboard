@@ -860,8 +860,11 @@ tfoot td:first-child{text-align:left;}
 .chair-chan .cc-pill{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;display:inline-block;}
 .chair-chan .cc-pill.on{background:#E4F5EE;color:#0B915F;}
 .chair-chan .cc-pill.off{background:#FCE9EA;color:#D93843;}
-.chair-chan .cc-val{font-size:20px;font-weight:800;color:#0E1B3D;margin-top:10px;font-variant-numeric:tabular-nums;}
-.chair-chan .cc-sub{font-size:11px;color:#8A96AC;font-weight:600;}
+.chair-chan .cc-metric{margin-top:12px;}
+.chair-chan .cc-lab{font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#8A96AC;margin-bottom:2px;}
+.chair-chan .cc-val{font-size:22px;font-weight:800;color:#0E1B3D;font-variant-numeric:tabular-nums;line-height:1.1;}
+.chair-chan .cc-val2{font-size:22px;font-weight:800;color:#0B915F;font-variant-numeric:tabular-nums;line-height:1.1;}
+.chair-chan .cc-off{font-size:11.5px;color:#B4BECD;font-weight:600;margin-top:12px;}
 .chair-reco{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-left:40px;}
 @media(max-width:760px){.chair-reco{grid-template-columns:1fr;}.chair-channels,.chair-controls,.chair-reco,.chair-probs{margin-left:0;}}
 .chair-reco-col{border-radius:14px;padding:16px 18px;}
@@ -1092,7 +1095,7 @@ tfoot td:first-child{text-align:left;}
       <div class="chair-act">
         <div class="chair-h"><span class="chair-n">2</span><div>
           <div class="chair-q">Q: Do this for every marketing avenue separately &mdash; PPC, Instagram+Facebook, TikTok, YouTube, LinkedIn+Snapchat, Programmatic.</div>
-          <h3>Answered &mdash; but only 2 of 6 avenues are running</h3></div></div>
+          <h3>Answered &mdash; but ads are running only on 2 of 6 avenues</h3></div></div>
         <div class="chair-channels" id="chairChannels"></div>
       </div>
 
@@ -1116,8 +1119,7 @@ tfoot td:first-child{text-align:left;}
       <div class="chair-act">
         <div class="chair-h"><span class="chair-n">5</span><div>
           <div class="chair-q">Q: A daily report of the day&#39;s performance (Appendix 1 fields) plus weekly and monthly recommendations.</div>
-          <h3><span class="wip">Work in progress</span> &mdash; needs Appendix 1 to finalise the exact fields</h3></div></div>
-        <div class="chair-wip-box">The daily figures above are ready. The automated written daily report (the yellow-highlighted fields in your Appendix 1) will be added once that appendix is shared, so the summary matches exactly what you want reported each day.</div>
+          <h3><span class="wip">Work in progress</span></h3></div></div>
       </div>
 
       <div class="chair-act">
@@ -1130,8 +1132,6 @@ tfoot td:first-child{text-align:left;}
           <div class="chair-prob"><div class="cp-rank">3</div><div class="cp-body"><b>We are not using the best tools per channel</b><p>No dedicated stack (e.g. HubSpot) for PPC, targeting, remarketing and social. Right tool per avenue would lift efficiency across the board.</p></div></div>
         </div>
       </div>
-
-      <p class="footer-note">Matrix, channels, daily trend and recommendations are from the marketing Excels and the live Power BI Daily MW Report. Daily spend is the daily total (Power BI does not split spend by channel at day level). Items marked work in progress need either the Appendix 1 fields or a hosted live connection.</p>
     </div>
   </div>
 
@@ -2339,7 +2339,7 @@ let campC3;
   // Q1 MATRIX
   let chan='ppc';
   const chanSeg=document.getElementById('chairChan');
-  chanSeg.innerHTML='<button data-c="ppc" class="on">PPC</button><button data-c="social">Instagram + Facebook</button><button data-c="all">All channels</button>';
+  chanSeg.innerHTML='<button data-c="ppc" class="on">PPC</button><button data-c="social">Paid Social (Instagram + Facebook)</button><button data-c="all">All channels</button>';
   function rowsFor(ch){
     if(ch==='ppc') return m.ppc;
     if(ch==='social') return m.social;
@@ -2377,11 +2377,17 @@ let campC3;
   const pT=m.ppc_tot, sT=m.soc_tot;
   const channels=[['PPC',true,pT.spend_act,pT.funded],['Instagram + Facebook',true,sT.spend_act,sT.funded],
     ['TikTok',false,0,0],['YouTube',false,0,0],['LinkedIn + Snapchat',false,0,0],['Programmatic',false,0,0]];
-  document.getElementById('chairChannels').innerHTML=channels.map(c=>
-    '<div class="chair-chan'+(c[1]?'':' off')+'"><div class="cc-nm">'+c[0]+'</div>'+
-    '<span class="cc-pill '+(c[1]?'on':'off')+'">'+(c[1]?'Running':'Not used')+'</span>'+
-    (c[1]?'<div class="cc-val">'+money(c[2])+'</div><div class="cc-sub">'+c[3]+' funded this month</div>':'<div class="cc-val" style="color:#C4CDDB">\u2014</div><div class="cc-sub">never switched on</div>')+
-    '</div>').join('');
+  document.getElementById('chairChannels').innerHTML=channels.map(function(c){
+    var running=c[1];
+    var body = running
+      ? '<div class="cc-metric"><div class="cc-lab">Spend this month</div><div class="cc-val">'+money(c[2])+'</div></div>'+
+        '<div class="cc-metric"><div class="cc-lab">Funded accounts</div><div class="cc-val2">'+c[3]+'</div></div>'
+      : '<div class="cc-metric"><div class="cc-lab">Spend this month</div><div class="cc-val" style="color:#C4CDDB">\u2014</div></div>'+
+        '<div class="cc-off">Never switched on</div>';
+    return '<div class="chair-chan'+(running?'':' off')+'"><div class="cc-nm">'+c[0]+'</div>'+
+      '<span class="cc-pill '+(running?'on':'off')+'">'+(running?'Running':'Not used')+'</span>'+
+      body+'</div>';
+  }).join('')
 
   // Q3 DAILY (total spend + funded line)
   if(window.Chart && DAILY && DAILY.Aug){
