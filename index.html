@@ -893,8 +893,14 @@ tfoot td:first-child{text-align:left;}
 .wip{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;background:#FBF2DD;color:#B57F0F;padding:3px 9px;border-radius:999px;vertical-align:middle;}
 .chair-wip-box{margin-left:40px;background:#FBF2DD;border:1.5px dashed #E8C77E;border-radius:12px;padding:14px 18px;font-size:13px;color:#6B5316;line-height:1.55;}
 @media(max-width:760px){.chair-wip-box{margin-left:0;}}
-#chairMatrix .flag{width:0;height:0;}
-#chairMatrix th.ccol .flag{width:18px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:4px;display:inline-block;}
+#chairMatrix .flag{width:18px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:5px;display:inline-block;}
+
+.chairmx th.cgrp{text-align:center;border-left:2px solid #E2E9F3;font-size:12px;padding:8px 10px;white-space:nowrap;}
+.chairmx th.csub{font-size:9.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:#8A96AC;padding:5px 8px;text-align:right;}
+.chairmx td.num{padding:8px 8px;}
+.chairmx td.exp{color:#8A96AC;}
+.chairmx td.num:nth-child(3n+2){border-left:2px solid #F0F3F9;}
+.chairmx th.csub:nth-child(3n+2){border-left:2px solid #F0F3F9;}
 </style>
 </head>
 <body>
@@ -2348,27 +2354,41 @@ let campC3;
     const rr=Object.values(by); rr.forEach(r=>{r.roi=r.spend_act?100*r.nmi/r.spend_act:0;}); return rr;
   }
   function drawMatrix(){
-    const rows=rowsFor(chan).slice().sort((a,b)=>b.spend_act-a.spend_act).slice(0,14);
-    let head='<tr><th class="mlab" style="text-align:left">Metric</th>'+rows.map(r=>'<th class="ccol">'+fl(r.country)+r.country+'</th>').join('')+'</tr>';
+    const rows=rowsFor(chan).slice().sort((a,b)=>b.spend_act-a.spend_act).slice(0,10);
+    // metrics: label, actual-getter, expected-getter (null if no plan), formatter
     const metrics=[
-      ['Spend',r=>money(r.spend_act),r=>r.spend_exp,'spend_act',true],
-      ['Leads',r=>Math.round(r.leads_act).toLocaleString(),r=>r.leads_exp,'leads_act',true],
-      ['Funded',r=>r.funded,null,null,false],
-      ['Acct \u2192 Funded %',r=>r.live?pct(100*r.funded/r.live):'\u2013',null,null,false],
-      ['ROI %',r=>pct(r.roi),null,null,false],
-      ['Net money in',r=>money(r.nmi),null,null,false],
+      ['Spend', r=>r.spend_act, r=>r.spend_exp, money],
+      ['Leads', r=>r.leads_act, r=>r.leads_exp, v=>Math.round(v).toLocaleString()],
+      ['Funded', r=>r.funded, null, v=>Math.round(v).toLocaleString()],
+      ['Acct \u2192 Funded %', r=>r.live?100*r.funded/r.live:0, null, v=>v.toFixed(1)+'%'],
+      ['ROI %', r=>r.roi, null, v=>v.toFixed(1)+'%'],
+      ['Net money in', r=>r.nmi, null, money],
     ];
-    let body=metrics.map(mt=>'<tr><td class="mlab">'+mt[0]+'</td>'+rows.map(r=>{
-      let cell=mt[1](r);
-      if(mt[4] && mt[2]){
-        const diff=r[mt[3]]-mt[2](r);
-        const col=diff>=0?'#0B915F':'#D93843';
-        cell+='<div style="font-size:10px;color:'+col+';font-weight:700">'+(diff>=0?'+':'')+(mt[0]==='Spend'?money(diff):Math.round(diff).toLocaleString())+'</div>';
-      }
-      return '<td class="num">'+cell+'</td>';
-    }).join('')+'</tr>').join('');
-    document.getElementById('chairMatrix').innerHTML='<table class="tpose"><thead>'+head+'</thead><tbody>'+
-      '<tr class="grp"><td colspan="'+(rows.length+1)+'">Plan vs actual &middot; top 14 countries by spend</td></tr>'+body+'</tbody></table>';
+    // header: each country spans Expected / Actual / Diff
+    let h1='<tr><th class="mlab" rowspan="2" style="text-align:left;vertical-align:bottom">Metric</th>';
+    rows.forEach(r=>{ h1+='<th class="cgrp" colspan="3">'+fl(r.country)+r.country+'</th>'; });
+    h1+='</tr>';
+    let h2='<tr>';
+    rows.forEach(()=>{ h2+='<th class="csub">Expected</th><th class="csub">Actual</th><th class="csub">Diff</th>'; });
+    h2+='</tr>';
+    let body=metrics.map(mt=>{
+      const hasExp=!!mt[2], fmt=mt[3];
+      let tr='<tr><td class="mlab">'+mt[0]+'</td>';
+      rows.forEach(r=>{
+        const act=mt[1](r);
+        if(hasExp){
+          const exp=mt[2](r), diff=act-exp;
+          const col=diff>=0?'#0B915F':'#D93843';
+          tr+='<td class="num exp">'+fmt(exp)+'</td>'+
+              '<td class="num">'+fmt(act)+'</td>'+
+              '<td class="num" style="color:'+col+';font-weight:700">'+(diff>=0?'+':'\u2212')+fmt(Math.abs(diff))+'</td>';
+        } else {
+          tr+='<td class="num exp">\u2013</td><td class="num">'+fmt(act)+'</td><td class="num exp">\u2013</td>';
+        }
+      });
+      return tr+'</tr>';
+    }).join('');
+    document.getElementById('chairMatrix').innerHTML='<table class="tpose chairmx"><thead>'+h1+h2+'</thead><tbody>'+body+'</tbody></table>';
   }
   drawMatrix();
   chanSeg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;[...chanSeg.children].forEach(x=>x.classList.toggle('on',x===b));chan=b.dataset.c;drawMatrix();});
