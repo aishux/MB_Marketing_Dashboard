@@ -1014,8 +1014,7 @@ tfoot td:first-child{text-align:left;}
         <div class="score-head">
           <span class="sh-rank">#</span><span class="sh-name">Campaign</span>
           <span class="sh-col">Spend</span><span class="sh-col">Clients</span>
-          <span class="sh-col">Cost / client</span><span class="sh-verdict">Verdict</span>
-        </div>
+          <span class="sh-col">Cost / client</span></div>
         <div id="campScore"></div>
       </div>
     </div>
@@ -2198,7 +2197,7 @@ let campC3;
         '<span class="s-col">'+money(r.spend)+'</span>'+
         '<span class="s-col">'+r.funded+'</span>'+
         '<span class="s-col">'+(r.funded>0?money(r.cpf):'—')+'</span>'+
-        '<span class="s-verdict"><span class="s-badge '+cls+'">'+word+'</span></span></div>';
+        '</div>';
     }).join('');
   }
   drawScore();
